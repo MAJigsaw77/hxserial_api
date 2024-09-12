@@ -79,6 +79,7 @@ bool get_serial_devices(SerialDevice **devices, size_t *count)
 		}
 
 		RegCloseKey(hDeviceRegistryKey);
+
 		index++;
 	}
 
