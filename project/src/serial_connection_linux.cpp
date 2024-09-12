@@ -193,7 +193,6 @@ bool set_serial_connection_stop_bits(SerialConnection *connection, const int sto
 
 	if (stop_bits == 1)
 		tty.c_cflag &= ~CSTOPB;
-	}
 	else if (stop_bits == 2)
 		tty.c_cflag |= CSTOPB;
 	else
