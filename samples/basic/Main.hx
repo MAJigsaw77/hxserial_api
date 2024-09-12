@@ -12,12 +12,12 @@ class Main
 
 		var count:cpp.SizeT = 0;
 
-		if (SerialDeviceAPI.getSerialDevices(cpp.RawPointer.addressOf(devices), cpp.RawPointer.addressOf(count)))
+		if (SerialDeviceAPI.get_serial_devices(cpp.RawPointer.addressOf(devices), cpp.RawPointer.addressOf(count)))
 		{
 			for (i in 0...count)
 				Sys.println('Path: ${devices[i].path}, vID: ${devices[i].vid}, pID: ${devices[i].pid}.');
 
-			freeSerialDevices(devices, count);
+			SerialDeviceAPI.free_serial_devices(devices, count);
 		}
 		else
 			Sys.println('No devices found.');
