@@ -19,13 +19,13 @@ typedef struct SerialConnection
 	int stop_bits;
 	int flow_control;
 	int timeout;
-	#ifdef HX_WINDOWS
+#ifdef HX_WINDOWS
 	HANDLE fd;
 	int data_bits;
-	#endif
-	#ifndef HX_WINDOWS
+#endif
+#ifndef HX_WINDOWS
 	int fd;
-	#endif
+#endif
 } SerialConnection;
 
 bool open_serial_connection(SerialDevice *device, SerialConnection **connection);

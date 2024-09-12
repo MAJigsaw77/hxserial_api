@@ -1,11 +1,11 @@
 #include "serial_device.h"
 
 #include <windows.h>
-#include <setupapi.h>
 #include <devguid.h>
 #include <initguid.h>
-#include <tchar.h>
 #include <regstr.h>
+#include <setupapi.h>
+#include <tchar.h>
 
 #include <iostream>
 
@@ -46,13 +46,25 @@ bool get_serial_devices(SerialDevice **devices, size_t *count)
 				TCHAR friendlyName[256];
 				DWORD friendlyNameSize = sizeof(friendlyName);
 
-				if (SetupDiGetDeviceRegistryProperty(deviceInfoSet, &deviceInfoData, SPDRP_FRIENDLYNAME, NULL, (PBYTE)friendlyName, friendlyNameSize, &requiredSize))
+				if (SetupDiGetDeviceRegistryProperty(deviceInfoSet,
+								     &deviceInfoData,
+								     SPDRP_FRIENDLYNAME,
+								     NULL,
+								     (PBYTE)friendlyName,
+								     friendlyNameSize,
+								     &requiredSize))
 				{
 					DWORD vendorID = 0;
 					DWORD productID = 0;
 					TCHAR hardwareID[256];
 
-					if (SetupDiGetDeviceRegistryProperty(deviceInfoSet, &deviceInfoData, SPDRP_HARDWAREID, NULL, (PBYTE)hardwareID, sizeof(hardwareID), &requiredSize))
+					if (SetupDiGetDeviceRegistryProperty(deviceInfoSet,
+									     &deviceInfoData,
+									     SPDRP_HARDWAREID,
+									     NULL,
+									     (PBYTE)hardwareID,
+									     sizeof(hardwareID),
+									     &requiredSize))
 						_stscanf_s(hardwareID, _T("USB\\VID_%04x&PID_%04x"), &vendorID, &productID);
 
 					deviceList = (SerialDevice *)realloc(deviceList, sizeof(SerialDevice) * (deviceCount + 1));

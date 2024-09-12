@@ -13,7 +13,7 @@
 #import <IOKit/serial/IOSerialKeys.h>
 #import <IOKit/usb/IOUSBLib.h>
 
-static bool configureSerialPort(SerialConnection* connection, int fd)
+static bool configureSerialPort(SerialConnection *connection, int fd)
 {
 	struct termios tty;
 
@@ -92,36 +92,36 @@ bool set_serial_connection_baud(SerialConnection *connection, const int baud)
 
 	switch (baud)
 	{
-		case 1200:
-			baud_enum = B1200;
-			break;
-		case 2400:
-			baud_enum = B2400;
-			break;
-		case 4800:
-			baud_enum = B4800;
-			break;
-		case 9600:
-			baud_enum = B9600;
-			break;
-		case 19200:
-			baud_enum = B19200;
-			break;
-		case 38400:
-			baud_enum = B38400;
-			break;
-		case 57600:
-			baud_enum = B57600;
-			break;
-		case 115200:
-			baud_enum = B115200;
-			break;
-		case 230400:
-			baud_enum = B230400;
-			break;
-		default:
-			NSLog(@"Error from cfsetospeed: %s", strerror(errno));
-			return false;
+	case 1200:
+		baud_enum = B1200;
+		break;
+	case 2400:
+		baud_enum = B2400;
+		break;
+	case 4800:
+		baud_enum = B4800;
+		break;
+	case 9600:
+		baud_enum = B9600;
+		break;
+	case 19200:
+		baud_enum = B19200;
+		break;
+	case 38400:
+		baud_enum = B38400;
+		break;
+	case 57600:
+		baud_enum = B57600;
+		break;
+	case 115200:
+		baud_enum = B115200;
+		break;
+	case 230400:
+		baud_enum = B230400;
+		break;
+	default:
+		NSLog(@"Error from cfsetospeed: %s", strerror(errno));
+		return false;
 	}
 
 	cfsetospeed(&tty, baud);
