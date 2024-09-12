@@ -3,7 +3,6 @@ package hxserialapi;
 #if !cpp
 #error "This file is only for cpp targets"
 #end
-
 import cpp.ConstCharStar;
 import cpp.RawPointer;
 import cpp.StdString;
