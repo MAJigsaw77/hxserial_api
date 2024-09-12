@@ -65,17 +65,20 @@ bool open_serial_connection(SerialDevice *device, SerialConnection **connection)
 	}
 
 	(*connection) = conn;
+
 	return true;
 }
 
 void close_serial_connection(SerialConnection *connection)
 {
-	close(connection->fd);
+	if (connection)
+		close(connection->fd);
 }
 
 void free_serial_connection(SerialConnection *connection)
 {
-	free(connection);
+	if (connection)
+		free(connection);
 }
 
 bool set_serial_connection_baud(SerialConnection *connection, const int baud)
