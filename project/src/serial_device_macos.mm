@@ -64,8 +64,8 @@ bool get_serial_devices(SerialDevice **devices, size_t *count)
 			deviceList = (SerialDevice *)realloc(deviceList, sizeof(SerialDevice) * (deviceCount + 1));
 
 			deviceList[deviceCount].path = strdup(devicePath);
-			deviceList[deviceCount].pid = productID;
-			deviceList[deviceCount].vid = vendorID;
+			deviceList[deviceCount].pID = productID;
+			deviceList[deviceCount].vID = vendorID;
 
 			IOObjectRelease(usbDevice);
 

@@ -7,8 +7,8 @@
 typedef struct SerialDevice
 {
 	const char *path;
-	int pid;
-	int vid;
+	int pID;
+	int vID;
 } SerialDevice;
 
 /**

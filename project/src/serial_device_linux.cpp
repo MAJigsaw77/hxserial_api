@@ -44,8 +44,8 @@ bool get_serial_devices(SerialDevice **devices, size_t *count)
 				continue;
 			}
 
-			device->vid = serial.vendor_id;
-			device->pid = serial.product_id;
+			device->vID = serial.vendor_id;
+			device->pID = serial.product_id;
 
 			deviceList = (SerialDevice *)realloc(deviceList, sizeof(SerialDevice) * (deviceCount + 1));
 			deviceList[deviceCount] = *device;

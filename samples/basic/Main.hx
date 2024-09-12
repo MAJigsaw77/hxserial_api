@@ -15,7 +15,7 @@ class Main
 		if (SerialDeviceAPI.get_serial_devices(cpp.RawPointer.addressOf(devices), cpp.RawPointer.addressOf(count)))
 		{
 			for (i in 0...count)
-				Sys.println('Path: ${devices[i].path}, vID: ${devices[i].vid}, pID: ${devices[i].pid}.');
+				Sys.println('Path: ${devices[i].path}, vID: ${devices[i].vID}, pID: ${devices[i].pID}.');
 
 			SerialDeviceAPI.free_serial_devices(devices, count);
 		}

@@ -16,8 +16,8 @@ extern class SerialDevice
 	static function create():SerialDevice;
 
 	var path:cpp.ConstCharStar;
-	var vid:Int;
-	var pid:Int;
+	var vID:Int;
+	var pID:Int;
 }
 
 @:buildXml('<include name="${haxelib:hxserialapi}/project/Build.xml" />')
