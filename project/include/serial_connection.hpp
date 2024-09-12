@@ -28,6 +28,8 @@ typedef struct SerialConnection
 } SerialConnection;
 
 bool open_serial_connection(SerialDevice *device, SerialConnection **connection);
+void close_serial_connection(SerialConnection *connection);
+void free_serial_connection(SerialConnection *connection);
 
 bool set_serial_connection_baud(SerialConnection *connection, const int baud);
 bool set_serial_connection_char_size(SerialConnection *connection, const int char_size);
@@ -46,7 +48,3 @@ int has_available_data_serial_connection(const SerialConnection *connection);
 int write_bytes_serial_connection(SerialConnection *connection, const uint8_t *data, const size_t size);
 int write_byte_serial_connection(SerialConnection *connection, const uint8_t data);
 int write_string_serial_connection(SerialConnection *connection, const char *data);
-
-void close_serial_connection(SerialConnection *connection);
-
-void free_serial_connection(SerialConnection *connection);
