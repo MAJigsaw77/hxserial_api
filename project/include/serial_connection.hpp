@@ -35,6 +35,9 @@ bool set_serial_connection_baud(SerialConnection *connection, int baud);
 bool set_serial_connection_char_size(SerialConnection *connection, int char_size);
 bool set_serial_connection_parity(SerialConnection *connection, int parity);
 bool set_serial_connection_stop_bits(SerialConnection *connection, int stop_bits);
+#ifdef _WIN32
+bool set_serial_connection_data_bits(SerialConnection *connection, int data_bits);
+#endif
 bool set_serial_connection_flow_control(SerialConnection *connection, int flow_control);
 bool set_serial_connection_timeout(SerialConnection *connection, int timeout);
 
