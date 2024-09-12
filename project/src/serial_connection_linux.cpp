@@ -22,14 +22,14 @@ static bool configureSerialPort(SerialConnection *connection, int fd)
 	cfsetospeed(&tty, B9600);
 	cfsetispeed(&tty, B9600);
 
-	tty.c_cflag &= ~PARENB; // No parity bit
-	tty.c_cflag &= ~CSTOPB; // 1 stop bit
+	tty.c_cflag &= ~PARENB;
+	tty.c_cflag &= ~CSTOPB;
 	tty.c_cflag &= ~CSIZE;
-	tty.c_cflag |= CS8;				// 8 data bits
-	tty.c_cflag &= ~CRTSCTS;			// Disable RTS/CTS hardware flow control
-	tty.c_iflag &= ~(IXON | IXOFF | IXANY);		// Disable software flow control
-	tty.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG); // Raw input mode (non-canonical)
-	tty.c_oflag &= ~OPOST;				// Raw output mode
+	tty.c_cflag |= CS8;
+	tty.c_cflag &= ~CRTSCTS;
+	tty.c_iflag &= ~(IXON | IXOFF | IXANY);
+	tty.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+	tty.c_oflag &= ~OPOST;
 
 	if (tcsetattr(fd, TCSANOW, &tty) != 0)
 	{
@@ -46,6 +46,7 @@ bool open_serial_connection(SerialDevice *device, SerialConnection **connection)
 	memset(conn, 0, sizeof(SerialConnection));
 
 	conn->fd = open(device->path, O_RDWR | O_NOCTTY | O_NONBLOCK);
+
 	if (conn->fd == -1)
 	{
 		free(conn);
@@ -60,23 +61,20 @@ bool open_serial_connection(SerialDevice *device, SerialConnection **connection)
 	}
 
 	(*connection) = conn;
+
 	return true;
 }
 
 void close_serial_connection(SerialConnection *connection)
 {
 	if (connection)
-	{
 		close(connection->fd);
-	}
 }
 
 void free_serial_connection(SerialConnection *connection)
 {
 	if (connection)
-	{
 		free(connection);
-	}
 }
 
 bool set_serial_connection_baud(SerialConnection *connection, const int baud)
@@ -170,13 +168,9 @@ bool set_serial_connection_parity(SerialConnection *connection, const int parity
 	}
 
 	if (parity == 0)
-	{
 		tty.c_cflag &= ~PARENB;
-	}
 	else
-	{
 		tty.c_cflag |= PARENB;
-	}
 
 	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0)
 	{
@@ -198,13 +192,10 @@ bool set_serial_connection_stop_bits(SerialConnection *connection, const int sto
 	}
 
 	if (stop_bits == 1)
-	{
 		tty.c_cflag &= ~CSTOPB;
 	}
 	else if (stop_bits == 2)
-	{
 		tty.c_cflag |= CSTOPB;
-	}
 	else
 	{
 		printf("Unsupported number of stop bits: %d\n", stop_bits);
@@ -231,13 +222,9 @@ bool set_serial_connection_flow_control(SerialConnection *connection, const int 
 	}
 
 	if (flow_control == 0)
-	{
-		tty.c_cflag &= ~CRTSCTS; // No flow control
-	}
+		tty.c_cflag &= ~CRTSCTS;
 	else if (flow_control == 1)
-	{
-		tty.c_cflag |= CRTSCTS; // Hardware flow control
-	}
+		tty.c_cflag |= CRTSCTS;
 
 	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0)
 	{
@@ -258,7 +245,7 @@ bool set_serial_connection_timeout(SerialConnection *connection, const int timeo
 		return false;
 	}
 
-	tty.c_cc[VTIME] = timeout; // Timeout in deciseconds
+	tty.c_cc[VTIME] = timeout;
 
 	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0)
 	{
