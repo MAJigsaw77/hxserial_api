@@ -1,0 +1,43 @@
+name: Testing
+on:
+  push:
+    branches: main
+    paths-ignore:
+      - '.github/workflows/clang-formatter.yml'
+      - 'project/.clang-format'
+      - 'LICENSE'
+      - 'README.md'
+      - 'haxelib.json'
+      - 'hxformat.json'
+  workflow_dispatch:
+jobs:
+  Job:
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+        with:
+          submodules: true
+
+      - name: Setup Haxe
+        uses: krdlab/setup-haxe@master
+        with:
+          haxe-version: latest
+
+      - name: Install Dependencies
+        run: |
+          haxelib install hxcpp --quiet
+          haxelib dev hxserialapi .
+
+      - name: Build Unix
+        if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
+        run: cd samples/basic && haxe build-unix.hxml
+
+      - name: Build Windows
+        if: startsWith(matrix.os, 'windows')
+        run: cd sample/basic && haxe build-win.hxml
+  
