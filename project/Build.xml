@@ -15,6 +15,7 @@
 
 		<section if="windows">
 			<file name="${haxelib:hxserial_api}/project/src/serial_device_windows.cpp" />
+			<file name="${haxelib:hxserial_api}/project/src/serial_connection_windows.cpp" />
 		</section>
 
 		<section if="linux">
