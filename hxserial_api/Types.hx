@@ -37,5 +37,5 @@ extern class SerialConnection
 	var stop_bits:Int;
 	var flow_control:Int;
 	var timeout:Int;
-	var fd:Int;
+	// var fd:Int;
 }

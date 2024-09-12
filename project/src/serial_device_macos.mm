@@ -26,16 +26,16 @@ bool get_serial_devices(SerialDevice **devices, size_t *count)
 	while ((usbDevice = IOIteratorNext(iterator)))
 	{
 		CFStringRef devicePathRef =
-		    (CFStringRef)IORegistryEntryCreateCFProperty(usbDevice, CFSTR(kIOCalloutDeviceKey), kCFAllocatorDefault, 0);
+			(CFStringRef)IORegistryEntryCreateCFProperty(usbDevice, CFSTR(kIOCalloutDeviceKey), kCFAllocatorDefault, 0);
 		io_registry_entry_t parent;
 		kr = IORegistryEntryGetParentEntry(usbDevice, kIOServicePlane, &parent);
 
 		if (kr == KERN_SUCCESS)
 		{
 			CFNumberRef vendorIDRef =
-			    (CFNumberRef)IORegistryEntryCreateCFProperty(parent, CFSTR(kUSBVendorID), kCFAllocatorDefault, 0);
+				(CFNumberRef)IORegistryEntryCreateCFProperty(parent, CFSTR(kUSBVendorID), kCFAllocatorDefault, 0);
 			CFNumberRef productIDRef =
-			    (CFNumberRef)IORegistryEntryCreateCFProperty(parent, CFSTR(kUSBProductID), kCFAllocatorDefault, 0);
+				(CFNumberRef)IORegistryEntryCreateCFProperty(parent, CFSTR(kUSBProductID), kCFAllocatorDefault, 0);
 
 			char devicePath[1024] = "Unknown Path";
 
