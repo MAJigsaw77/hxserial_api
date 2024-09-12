@@ -1,11 +1,18 @@
 {
-    "name": "hxserialapi",
-    "description": "",
-    "classPath": "",
-    "version": "0.0.0",
-    "releasenote": "",
-    "license": "MIT",
-
-    "url": "https://github.com/MAJigsaw77/hxserialapi",
-    "contributors": ["MAJigsaw77", "Ne_Eo"]
+	"name": "hxserialapi",
+	"url": "https://github.com/MAJigsaw77/hxserialapi",
+	"license": "MIT",
+	"tags": [
+		"cpp",
+		"haxe"
+	],
+	"description": "",
+	"version": "1.0.0",
+	"releasenote": "First Release.",
+	"contributors": [
+		"MAJigsaw77"
+	],
+	"dependencies": {
+		"hxcpp": ""
+	}
 }
