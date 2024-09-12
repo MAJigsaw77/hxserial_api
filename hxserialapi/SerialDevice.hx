@@ -9,8 +9,8 @@ package hxserialapi;
 extern class SerialDevice
 {
 	@:native('get_serial_devices')
-	static function getSerialDevices(devices:cpp.RawPointer<cpp.RawPointer<SerialDevice>>, count:cpp.RawPointer<cpp.SizeT>):Bool;
+	static function get_serial_devices(devices:cpp.RawPointer<cpp.RawPointer<SerialDevice>>, count:cpp.RawPointer<cpp.SizeT>):Bool;
 
 	@:native('free_serial_devices')
-	static function freeSerialDevices(devices:cpp.RawPointer<SerialDevice>, count:cpp.SizeT):Void;
+	static function free_serial_devices(devices:cpp.RawPointer<SerialDevice>, count:cpp.SizeT):Void;
 }
