@@ -39,5 +39,5 @@ jobs:
 
       - name: Build Windows
         if: startsWith(matrix.os, 'windows')
-        run: cd sample/basic && haxe build-win.hxml
+        run: cd samples/basic && haxe build-win.hxml
   
