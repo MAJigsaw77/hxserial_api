@@ -78,6 +78,42 @@ bool set_serial_connection_baud(SerialConnection *connection, const int baud)
 		return false;
 	}
 
+	int baud_enum = B9600;
+
+	switch (baud)
+	{
+		case 1200:
+			baud_enum = B1200;
+			break;
+		case 2400:
+			baud_enum = B2400;
+			break;
+		case 4800:
+			baud_enum = B4800;
+			break;
+		case 9600:
+			baud_enum = B9600;
+			break;
+		case 19200:
+			baud_enum = B19200;
+			break;
+		case 38400:
+			baud_enum = B38400;
+			break;
+		case 57600:
+			baud_enum = B57600;
+			break;
+		case 115200:
+			baud_enum = B115200;
+			break;
+		case 230400:
+			baud_enum = B230400;
+			break;
+		default:
+			NSLog(@"Error from cfsetospeed: %s", strerror(errno));
+			return false;
+	}
+
 	cfsetospeed(&tty, baud);
 	cfsetispeed(&tty, baud);
 
@@ -255,11 +291,6 @@ int read_until_line_serial_connection(const SerialConnection *connection, uint8_
 	}
 
 	return -1;
-}
-
-int peek_serial_connection(const SerialConnection *connection, uint8_t *data, const size_t size)
-{
-	return read(connection->fd, data, size);
 }
 
 int has_available_data_serial_connection(const SerialConnection *connection)

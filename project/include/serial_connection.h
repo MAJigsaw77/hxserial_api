@@ -47,8 +47,6 @@ int read_byte_serial_connection(const SerialConnection *connection, uint8_t *dat
 int read_until_serial_connection(const SerialConnection *connection, uint8_t *data, const char until);
 int read_until_line_serial_connection(const SerialConnection *connection, uint8_t *data);
 
-int peek_serial_connection(const SerialConnection *connection, uint8_t *data, const size_t size);
-
 int has_available_data_serial_connection(const SerialConnection *connection);
 
 /**

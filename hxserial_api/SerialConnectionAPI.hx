@@ -43,9 +43,6 @@ extern class SerialConnectionAPI
 	@:native('read_until_line_serial_connection')
 	static function read_until_line_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.RawPointer<cpp.UInt8>):Int;
 
-	@:native('peek_serial_connection')
-	static function peek_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.RawPointer<cpp.UInt8>, size:cpp.SizeT):Int;
-
 	@:native('has_available_data_serial_connection')
 	static function has_available_data_serial_connection(connection:cpp.RawPointer<SerialConnection>):Bool;
 
