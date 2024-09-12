@@ -6,10 +6,9 @@
 
 typedef struct SerialDevice
 {
-	// const char *name;
+	const char *path;
 	uint16_t pid;
 	uint16_t vid;
-	const char *path;
 } SerialDevice;
 
 /**
