@@ -11,7 +11,7 @@ jobs:
         run: sudo apt-get install clang-format -y
 
       - name: Formatting files
-        run: find ./project -name '*.c' -o -name '*.cpp' -o -name '*.m' -o -name '*.mm' -o -name '*.h' -o -name '*.hpp' | xargs clang-format -i
+        run: chmod +x ./format.sh && ./format.sh
 
       - name: Verify Formatting
         run: git status --short
