@@ -9,7 +9,7 @@
 #include <sys/ioctl.h>
 #include <stdlib.h>
 
-static bool configureSerialPort(int fd)
+static bool configureSerialPort(SerialConnection* connection, int fd)
 {
     struct termios tty;
 
@@ -52,7 +52,7 @@ bool open_serial_connection(SerialDevice *device, SerialConnection **connection)
         return false;
     }
 
-    if (!configureSerialPort(conn->fd))
+    if (!configureSerialPort(conn, conn->fd))
     {
         close(conn->fd);
         free(conn);
