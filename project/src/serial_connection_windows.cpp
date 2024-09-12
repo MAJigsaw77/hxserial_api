@@ -238,7 +238,7 @@ bool set_serial_connection_timeout(SerialConnection *connection, int timeout)
 	return true;
 }
 
-int read_serial_connection(const SerialConnection *connection, uint8_t *data, const size_t size)
+int read_serial_connection(SerialConnection *connection, uint8_t *data, size_t size)
 {
 	DWORD bytes_read = 0;
 
@@ -248,12 +248,12 @@ int read_serial_connection(const SerialConnection *connection, uint8_t *data, co
 	return bytes_read;
 }
 
-int read_byte_serial_connection(const SerialConnection *connection, uint8_t *data)
+int read_byte_serial_connection(SerialConnection *connection, uint8_t *data)
 {
 	return read_serial_connection(connection, data, 1);
 }
 
-int read_until_serial_connection(const SerialConnection *connection, uint8_t *data, const char until)
+int read_until_serial_connection(SerialConnection *connection, uint8_t *data, const char until)
 {
 	int bytes_read = 0;
 
@@ -273,7 +273,7 @@ int read_until_serial_connection(const SerialConnection *connection, uint8_t *da
 	return bytes_read;
 }
 
-int read_until_line_serial_connection(const SerialConnection *connection, uint8_t *data)
+int read_until_line_serial_connection(SerialConnection *connection, uint8_t *data)
 {
 	int bytes_read = 0;
 
@@ -295,7 +295,7 @@ int read_until_line_serial_connection(const SerialConnection *connection, uint8_
 	return bytes_read;
 }
 
-int has_available_data_serial_connection(const SerialConnection *connection)
+int has_available_data_serial_connection(SerialConnection *connection)
 {
 	COMSTAT comstat;
 	DWORD errors;
@@ -306,7 +306,7 @@ int has_available_data_serial_connection(const SerialConnection *connection)
 	return comstat.cbInQue;
 }
 
-int write_bytes_serial_connection(SerialConnection *connection, const uint8_t *data, const size_t size)
+int write_bytes_serial_connection(SerialConnection *connection, uint8_t *data, size_t size)
 {
 	DWORD bytes_written = 0;
 
@@ -316,7 +316,7 @@ int write_bytes_serial_connection(SerialConnection *connection, const uint8_t *d
 	return bytes_written;
 }
 
-int write_byte_serial_connection(SerialConnection *connection, const uint8_t data)
+int write_byte_serial_connection(SerialConnection *connection, uint8_t data)
 {
 	return write_bytes_serial_connection(connection, &data, 1);
 }
