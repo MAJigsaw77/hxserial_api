@@ -31,10 +31,12 @@
 	<target id="haxe">
 		<section if="mingw">
 			<lib name="-lsetupapi" />
+			<lib name="-ladvapi32" />
 		</section>
 
 		<section if="windows" unless="mingw">
 			<lib name="setupapi.lib" />
+			<lib name="advapi32.lib" />
 		</section>
 
 		<section if="macos">
