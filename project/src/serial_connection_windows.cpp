@@ -253,7 +253,7 @@ int read_byte_serial_connection(SerialConnection *connection, uint8_t *data)
 	return read_serial_connection(connection, data, 1);
 }
 
-int read_until_serial_connection(SerialConnection *connection, uint8_t *data, const char until)
+int read_until_serial_connection(SerialConnection *connection, uint8_t *data, uint8_t until)
 {
 	int bytes_read = 0;
 

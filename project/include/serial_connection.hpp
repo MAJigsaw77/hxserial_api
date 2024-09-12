@@ -40,7 +40,7 @@ bool set_serial_connection_timeout(SerialConnection *connection, int timeout);
 
 int read_serial_connection(SerialConnection *connection, uint8_t *data, size_t size);
 int read_byte_serial_connection(SerialConnection *connection, uint8_t *data);
-int read_until_serial_connection(SerialConnection *connection, uint8_t *data, const char *until);
+int read_until_serial_connection(SerialConnection *connection, uint8_t *data, uint8_t until);
 int read_until_line_serial_connection(SerialConnection *connection, uint8_t *data);
 
 int has_available_data_serial_connection(SerialConnection *connection);
