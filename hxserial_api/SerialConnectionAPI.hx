@@ -13,6 +13,12 @@ extern class SerialConnectionAPI
 	@:native('open_serial_connection')
 	static function open_serial_connection(device:cpp.RawPointer<SerialDevice>, connection:cpp.RawPointer<cpp.RawPointer<SerialConnection>>):Bool;
 
+	@:native('close_serial_connection')
+	static function close_serial_connection(connection:cpp.RawPointer<SerialConnection>):Void;
+
+	@:native('free_serial_connection')
+	static function free_serial_connection(connection:cpp.RawPointer<SerialConnection>):Void;
+
 	@:native('set_serial_connection_baud')
 	static function set_serial_connection_baud(connection:cpp.RawPointer<SerialConnection>, baud:Int):Bool;
 
@@ -54,10 +60,4 @@ extern class SerialConnectionAPI
 
 	@:native('write_string_serial_connection')
 	static function write_string_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.ConstCharStar):Int;
-
-	@:native('close_serial_connection')
-	static function close_serial_connection(connection:cpp.RawPointer<SerialConnection>):Void;
-
-	@:native('free_serial_connection')
-	static function free_serial_connection(connection:cpp.RawPointer<SerialConnection>):Void;
 }
