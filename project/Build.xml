@@ -39,6 +39,10 @@
 			<lib name="advapi32.lib" />
 		</section>
 
+		<section if="linux">
+			<lib name="-ludev" />
+		</section>
+
 		<section if="macos">
 			<vflag name="-framework" value="IOKit" />
 			<vflag name="-framework" value="AppKit" />

@@ -1,72 +1,74 @@
 #include "serial_device.h"
 
-#include <fcntl.h>
-#include <linux/serial.h>
-#include <stdio.h>
-#include <string.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
+#include <libudev.h>
 
-#define MAX_PATH 256
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 bool get_serial_devices(SerialDevice **devices, size_t *count)
 {
-	SerialDevice *deviceList = NULL;
-	size_t deviceCount = 0;
+    struct udev *udev;
+    struct udev_enumerate *enumerate;
+    struct udev_list_entry *devices_list, *entry;
+    struct udev_device *dev;
+    struct udev_device *usb_dev;
+    SerialDevice *deviceList = NULL;
+    size_t deviceCount = 0;
 
-	DIR *dir = opendir("/dev");
+    udev = udev_new();
 
-	if (dir == NULL)
-		return false;
+    if (!udev)
+        return false;
 
-	struct dirent *entry;
+    enumerate = udev_enumerate_new(udev);
+    udev_enumerate_add_match_subsystem(enumerate, "tty");
+    udev_enumerate_scan_devices(enumerate);
+    devices_list = udev_enumerate_get_list_entry(enumerate);
 
-	while ((entry = readdir(dir)) != NULL)
-	{
-		if (strncmp(entry->d_name, "tty", 3) == 0)
-		{
-			SerialDevice *device = (SerialDevice *)malloc(sizeof(SerialDevice));
-			memset(device, 0, sizeof(SerialDevice));
+    udev_list_entry_foreach(entry, devices_list)
+    {
+        const char *path;
+        path = udev_list_entry_get_name(entry);
+        dev = udev_device_new_from_syspath(udev, path);
 
-			snprintf(device->path, MAX_PATH, "/dev/%s", entry->d_name);
+        const char *dev_node = udev_device_get_devnode(dev);
+        usb_dev = udev_device_get_parent_with_subsystem_devtype(dev, "usb", "usb_device");
 
-			int fd = open(device->path, O_RDWR | O_NOCTTY | O_NONBLOCK);
-			if (fd == -1)
-			{
-				free(device);
-				continue;
-			}
+        if (usb_dev)
+        {
+            const char *vendor_id = udev_device_get_sysattr_value(usb_dev, "idVendor");
+            const char *product_id = udev_device_get_sysattr_value(usb_dev, "idProduct");
 
-			struct serial_struct serial;
-			if (ioctl(fd, TIOCGSERIAL, &serial) == -1)
-			{
-				free(device);
-				continue;
-			}
+            if (vendor_id && product_id)
+            {
+                deviceList = (SerialDevice *)realloc(deviceList, sizeof(SerialDevice) * (deviceCount + 1));
 
-			device->vID = serial.vendor_id;
-			device->pID = serial.product_id;
+                deviceList[deviceCount].path = strdup(dev_node);
+                deviceList[deviceCount].vID = (int)strtol(vendor_id, NULL, 16);
+                deviceList[deviceCount].pID = (int)strtol(product_id, NULL, 16);
 
-			deviceList = (SerialDevice *)realloc(deviceList, sizeof(SerialDevice) * (deviceCount + 1));
-			deviceList[deviceCount] = *device;
-			deviceCount++;
-		}
-	}
+                deviceCount++;
+            }
+        }
 
-	closedir(dir);
+        udev_device_unref(dev);
+    }
 
-	(*devices) = deviceList;
-	(*count) = deviceCount;
+    udev_enumerate_unref(enumerate);
+    udev_unref(udev);
 
-	return true;
+    (*devices) = deviceList;
+    (*count) = deviceCount;
+
+    return true;
 }
 
 void free_serial_devices(SerialDevice *devices, size_t count)
 {
-	for (size_t i = 0; i < count; i++)
-	{
-		free((void *)devices[i].path);
-	}
+    for (size_t i = 0; i < count; i++)
+        free((void *)devices[i].path);
 
-	free(devices);
+    free(devices);
 }
