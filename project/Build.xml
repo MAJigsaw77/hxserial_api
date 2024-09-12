@@ -30,14 +30,10 @@
 	<target id="haxe">
 		<section if="mingw">
 			<lib name="-lsetupapi" />
-			<lib name="-lcfgmgr32" />
-			<lib name="-ldevpkey" />
 		</section>
 
 		<section if="windows" unless="mingw">
 			<lib name="setupapi.lib" />
-			<lib name="cfgmgr32.lib" />
-			<lib name="devpkey.lib" />
 		</section>
 
 		<section if="macos">
