@@ -15,7 +15,7 @@ extern class SerialDevice
 	@:native('SerialDevice')
 	static function create():SerialDevice;
 
-	var path:ConstCharStar;
+	var path:cpp.ConstCharStar;
 	var vid:Int;
 	var pid:Int;
 }
@@ -30,7 +30,7 @@ extern class SerialConnection
 	@:native('SerialConnection')
 	static function create():SerialConnection;
 
-	var path:ConstCharStar;
+	var path:cpp.ConstCharStar;
 	var baud:Int;
 	var char_size:Int;
 	var parity:Int;
