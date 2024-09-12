@@ -1,11 +1,11 @@
-package hxserialapi;
+package hxserial_api;
 
 #if !cpp
 #error 'Serial API supports only C++ target platforms.'
 #end
-import hxserialapi.Types;
+import hxserial_api.Types;
 
-@:buildXml('<include name="${haxelib:hxserialapi}/project/Build.xml" />')
+@:buildXml('<include name="${haxelib:hxserial_api}/project/Build.xml" />')
 @:include('serial_device.h')
 @:unreflective
 extern class SerialDeviceAPI

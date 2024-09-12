@@ -1,8 +1,8 @@
 package;
 
-import hxserialapi.SerialConnectionAPI;
-import hxserialapi.SerialDeviceAPI;
-import hxserialapi.Types;
+import hxserial_api.SerialConnectionAPI;
+import hxserial_api.SerialDeviceAPI;
+import hxserial_api.Types;
 
 class Main
 {

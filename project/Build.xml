@@ -10,7 +10,7 @@
 		<compilerflag value="-I${this_dir}/include/" />
 	</files>
 
-	<files id="serialapi">
+	<files id="serial_api">
 		<compilerflag value="-I${this_dir}/include/" />
 
 		<section if="windows">
@@ -47,6 +47,6 @@
 			<vflag name="-framework" value="Foundation" />
 		</section>
 
-		<files id="serialapi" />
+		<files id="serial_api" />
 	</target>
 </xml>

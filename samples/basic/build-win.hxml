@@ -1,6 +1,6 @@
 -cp ./
 -D analyzer-optimize
--lib hxserialapi
+-lib hxserial_api
 -main Main
 -cpp bin
 -cmd start bin/Main.exe

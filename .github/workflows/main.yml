@@ -31,7 +31,7 @@ jobs:
       - name: Install Dependencies
         run: |
           haxelib install hxcpp --quiet
-          haxelib dev hxserialapi .
+          haxelib dev hxserial_api .
 
       - name: Build Unix
         if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
