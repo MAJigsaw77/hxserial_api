@@ -215,7 +215,7 @@ int read_byte_serial_connection(const SerialConnection *connection, uint8_t *dat
 
 int read_until_serial_connection(const SerialConnection *connection, uint8_t *data, const char until) {
 	int bytes_read = 0;
-	while (bytes_read < 1) {
+	while (true) {
 		int bytes = read_serial_connection(connection, data + bytes_read, 1);
 		if (bytes < 0) {
 			return -1;
@@ -230,7 +230,7 @@ int read_until_serial_connection(const SerialConnection *connection, uint8_t *da
 
 int read_until_line_serial_connection(const SerialConnection *connection, uint8_t *data) {
 	int bytes_read = 0;
-	while (bytes_read < 1) {
+	while (true) {
 		int bytes = read_serial_connection(connection, data + bytes_read, 1);
 		if (bytes < 0) {
 			return -1;
