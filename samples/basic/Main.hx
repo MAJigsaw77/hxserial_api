@@ -12,7 +12,7 @@ class Main
 
 		var count:cpp.SizeT = 0;
 
-		if (SerialDeviceTools.getSerialDevices(cpp.RawPointer.addressOf(devices), cpp.RawPointer.addressOf(count)))
+		if (SerialDeviceAPI.getSerialDevices(cpp.RawPointer.addressOf(devices), cpp.RawPointer.addressOf(count)))
 		{
 			for (i in 0...count)
 				Sys.println('Path: ${devices[i].path}, vID: ${devices[i].vid}, pID: ${devices[i].pid}.');
