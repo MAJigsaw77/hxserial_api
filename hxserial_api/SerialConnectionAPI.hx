@@ -23,7 +23,7 @@ extern class SerialConnectionAPI
 	 * @param connection A pointer to a pointer where the serial connection
 	 *                    object will be stored. This should be a pointer to
 	 *                    a pointer to `SerialConnection`.
-	 * @return True if the connection was successfully opened, false otherwise.
+	 * @return true if the connection was successfully opened, false otherwise.
 	 */
 	@:native('open_serial_connection')
 	static function open_serial_connection(device:cpp.RawPointer<SerialDevice>, connection:cpp.RawPointer<cpp.RawPointer<SerialConnection>>):Bool;
@@ -49,7 +49,7 @@ extern class SerialConnectionAPI
 	 *
 	 * @param connection A pointer to the `SerialConnection` object to configure.
 	 * @param baud The baud rate to set (e.g., 9600, 115200).
-	 * @return True if the baud rate was successfully set, false otherwise.
+	 * @return true if the baud rate was successfully set, false otherwise.
 	 */
 	@:native('set_serial_connection_baud')
 	static function set_serial_connection_baud(connection:cpp.RawPointer<SerialConnection>, baud:Int):Bool;
@@ -59,7 +59,7 @@ extern class SerialConnectionAPI
 	 *
 	 * @param connection A pointer to the `SerialConnection` object to configure.
 	 * @param char_size The number of data bits (e.g., 7 or 8).
-	 * @return True if the character size was successfully set, false otherwise.
+	 * @return true if the character size was successfully set, false otherwise.
 	 */
 	@:native('set_serial_connection_char_size')
 	static function set_serial_connection_char_size(connection:cpp.RawPointer<SerialConnection>, char_size:Int):Bool;
@@ -69,7 +69,7 @@ extern class SerialConnectionAPI
 	 *
 	 * @param connection A pointer to the `SerialConnection` object to configure.
 	 * @param parity The parity setting (e.g., 0 for none, 1 for odd, 2 for even).
-	 * @return True if the parity was successfully set, false otherwise.
+	 * @return true if the parity was successfully set, false otherwise.
 	 */
 	@:native('set_serial_connection_parity')
 	static function set_serial_connection_parity(connection:cpp.RawPointer<SerialConnection>, parity:Int):Bool;
@@ -79,7 +79,7 @@ extern class SerialConnectionAPI
 	 *
 	 * @param connection A pointer to the `SerialConnection` object to configure.
 	 * @param stop_bits The number of stop bits (e.g., 1 or 2).
-	 * @return True if the stop bits were successfully set, false otherwise.
+	 * @return true if the stop bits were successfully set, false otherwise.
 	 */
 	@:native('set_serial_connection_stop_bits')
 	static function set_serial_connection_stop_bits(connection:cpp.RawPointer<SerialConnection>, stop_bits:Int):Bool;
@@ -89,7 +89,7 @@ extern class SerialConnectionAPI
 	 *
 	 * @param connection A pointer to the `SerialConnection` object to configure.
 	 * @param flow_control The flow control setting (e.g., 0 for none, 1 for XON/XOFF, 2 for RTS/CTS).
-	 * @return True if the flow control was successfully set, false otherwise.
+	 * @return true if the flow control was successfully set, false otherwise.
 	 */
 	@:native('set_serial_connection_flow_control')
 	static function set_serial_connection_flow_control(connection:cpp.RawPointer<SerialConnection>, flow_control:Int):Bool;
@@ -99,7 +99,7 @@ extern class SerialConnectionAPI
 	 *
 	 * @param connection A pointer to the `SerialConnection` object to configure.
 	 * @param timeout The timeout value in milliseconds.
-	 * @return True if the timeout was successfully set, false otherwise.
+	 * @return true if the timeout was successfully set, false otherwise.
 	 */
 	@:native('set_serial_connection_timeout')
 	static function set_serial_connection_timeout(connection:cpp.RawPointer<SerialConnection>, timeout:Int):Bool;
@@ -150,7 +150,7 @@ extern class SerialConnectionAPI
 	 * Checks if there is data available to read from the serial connection.
 	 *
 	 * @param connection A pointer to the `SerialConnection` object to check.
-	 * @return True if data is available, false otherwise.
+	 * @return true if data is available, false otherwise.
 	 */
 	@:native('has_available_data_serial_connection')
 	static function has_available_data_serial_connection(connection:cpp.RawPointer<SerialConnection>):Bool;

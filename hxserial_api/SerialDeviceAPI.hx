@@ -23,7 +23,7 @@ extern class SerialDeviceAPI
 	 *                to `SerialDevice` structures.
 	 * @param count A pointer to a size_t variable where the number of devices
 	 *              will be stored.
-	 * @return True if the devices were successfully retrieved, false otherwise.
+	 * @return true if the devices were successfully retrieved, false otherwise.
 	 *
 	 * This function populates the `devices` pointer with an array of `SerialDevice`
 	 * structures and sets `count` to the number of devices found. The caller
