@@ -10,7 +10,8 @@
 	"version": "1.0.0",
 	"releasenote": "First Release.",
 	"contributors": [
-		"MAJigsaw77"
+		"MAJigsaw77",
+		"Ne_Eo"
 	],
 	"dependencies": {
 		"hxcpp": ""
