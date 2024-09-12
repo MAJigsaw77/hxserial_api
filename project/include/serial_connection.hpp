@@ -2,7 +2,7 @@
 
 #include "serial_device.hpp"
 
-#if HX_WINDOWS
+#ifdef _WIN32
 #include <windows.h>
 #endif
 
@@ -19,11 +19,10 @@ typedef struct SerialConnection
 	int stop_bits;
 	int flow_control;
 	int timeout;
-#ifdef HX_WINDOWS
+#ifdef _WIN32
 	HANDLE fd;
 	int data_bits;
-#endif
-#ifndef HX_WINDOWS
+#else
 	int fd;
 #endif
 } SerialConnection;
