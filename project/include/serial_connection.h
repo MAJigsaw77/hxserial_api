@@ -1,13 +1,14 @@
 #pragma once
 
-#include <stdint.h>
-#include <stddef.h>
-#include <stdbool.h>
 #include "serial_device.h"
+
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
 typedef struct SerialConnection
 {
-	const char* path;
+	const char *path;
 	int baud;
 	int char_size;
 	int parity;

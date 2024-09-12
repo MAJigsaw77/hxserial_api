@@ -1,14 +1,13 @@
 #include "serial_device.h"
 
+#include <fcntl.h>
+#include <linux/serial.h>
 #include <stdio.h>
 #include <string.h>
-#include <fcntl.h>
-#include <unistd.h>
 #include <sys/ioctl.h>
-#include <linux/serial.h>
+#include <unistd.h>
 
 #define MAX_PATH 256
-
 
 bool get_serial_devices(SerialDevice **devices, size_t *count)
 {

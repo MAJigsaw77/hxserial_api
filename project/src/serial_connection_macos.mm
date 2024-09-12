@@ -1,20 +1,22 @@
 #include "serial_connection.h"
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 #include <termios.h>
 
-#import <IOKit/IOKitLib.h>
-#import <IOKit/usb/IOUSBLib.h>
-#import <IOKit/IOBSD.h>
-#import <IOKit/serial/IOSerialKeys.h>
 #import <CoreFoundation/CoreFoundation.h>
+#import <IOKit/IOBSD.h>
+#import <IOKit/IOKitLib.h>
+#import <IOKit/serial/IOSerialKeys.h>
+#import <IOKit/usb/IOUSBLib.h>
 
-bool configureSerialPort(int fd) {
+bool configureSerialPort(int fd)
+{
 	struct termios tty;
 
-	if (tcgetattr(fd, &tty) != 0) {
+	if (tcgetattr(fd, &tty) != 0)
+	{
 		std::cerr << "Error from tcgetattr: " << strerror(errno) << std::endl;
 		return false;
 	}
@@ -26,8 +28,8 @@ bool configureSerialPort(int fd) {
 	// 8 bits, no parity, 1 stop bit
 	tty.c_cflag &= ~PARENB; // No parity
 	tty.c_cflag &= ~CSTOPB; // 1 stop bit
-	tty.c_cflag &= ~CSIZE;  // Clear size bits
-	tty.c_cflag |= CS8;     // 8 bits per byte
+	tty.c_cflag &= ~CSIZE;	// Clear size bits
+	tty.c_cflag |= CS8;	// 8 bits per byte
 
 	// Disable hardware flow control
 	tty.c_cflag &= ~CRTSCTS;
@@ -40,7 +42,8 @@ bool configureSerialPort(int fd) {
 	tty.c_oflag &= ~OPOST;
 
 	// Apply the configuration
-	if (tcsetattr(fd, TCSANOW, &tty) != 0) {
+	if (tcsetattr(fd, TCSANOW, &tty) != 0)
+	{
 		std::cerr << "Error from tcsetattr: " << strerror(errno) << std::endl;
 		return false;
 	}
@@ -76,7 +79,8 @@ bool set_serial_connection_baud(SerialConnection *connection, const int baud)
 {
 	struct termios tty;
 
-	if (tcgetattr(connection->fd, &tty) != 0) {
+	if (tcgetattr(connection->fd, &tty) != 0)
+	{
 		std::cerr << "Error from tcgetattr: " << strerror(errno) << std::endl;
 		return false;
 	}
@@ -85,7 +89,8 @@ bool set_serial_connection_baud(SerialConnection *connection, const int baud)
 	cfsetispeed(&tty, baud);
 
 	// Apply the configuration
-	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0) {
+	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0)
+	{
 		std::cerr << "Error from tcsetattr: " << strerror(errno) << std::endl;
 		return false;
 	}
@@ -97,7 +102,8 @@ bool set_serial_connection_char_size(SerialConnection *connection, const int cha
 {
 	struct termios tty;
 
-	if (tcgetattr(connection->fd, &tty) != 0) {
+	if (tcgetattr(connection->fd, &tty) != 0)
+	{
 		std::cerr << "Error from tcgetattr: " << strerror(errno) << std::endl;
 		return false;
 	}
@@ -106,7 +112,8 @@ bool set_serial_connection_char_size(SerialConnection *connection, const int cha
 	tty.c_cflag |= char_size;
 
 	// Apply the configuration
-	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0) {
+	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0)
+	{
 		std::cerr << "Error from tcsetattr: " << strerror(errno) << std::endl;
 		return false;
 	}
@@ -118,7 +125,8 @@ bool set_serial_connection_parity(SerialConnection *connection, const int parity
 {
 	struct termios tty;
 
-	if (tcgetattr(connection->fd, &tty) != 0) {
+	if (tcgetattr(connection->fd, &tty) != 0)
+	{
 		std::cerr << "Error from tcgetattr: " << strerror(errno) << std::endl;
 		return false;
 	}
@@ -127,7 +135,8 @@ bool set_serial_connection_parity(SerialConnection *connection, const int parity
 	tty.c_cflag |= parity;
 
 	// Apply the configuration
-	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0) {
+	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0)
+	{
 		std::cerr << "Error from tcsetattr: " << strerror(errno) << std::endl;
 		return false;
 	}
@@ -139,7 +148,8 @@ bool set_serial_connection_stop_bits(SerialConnection *connection, const int sto
 {
 	struct termios tty;
 
-	if (tcgetattr(connection->fd, &tty) != 0) {
+	if (tcgetattr(connection->fd, &tty) != 0)
+	{
 		std::cerr << "Error from tcgetattr: " << strerror(errno) << std::endl;
 		return false;
 	}
@@ -148,7 +158,8 @@ bool set_serial_connection_stop_bits(SerialConnection *connection, const int sto
 	tty.c_cflag |= stop_bits;
 
 	// Apply the configuration
-	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0) {
+	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0)
+	{
 		std::cerr << "Error from tcsetattr: " << strerror(errno) << std::endl;
 		return false;
 	}
@@ -160,7 +171,8 @@ bool set_serial_connection_flow_control(SerialConnection *connection, const int 
 {
 	struct termios tty;
 
-	if (tcgetattr(connection->fd, &tty) != 0) {
+	if (tcgetattr(connection->fd, &tty) != 0)
+	{
 		std::cerr << "Error from tcgetattr: " << strerror(errno) << std::endl;
 		return false;
 	}
@@ -169,7 +181,8 @@ bool set_serial_connection_flow_control(SerialConnection *connection, const int 
 	tty.c_cflag |= flow_control;
 
 	// Apply the configuration
-	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0) {
+	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0)
+	{
 		std::cerr << "Error from tcsetattr: " << strerror(errno) << std::endl;
 		return false;
 	}
@@ -183,7 +196,8 @@ bool set_serial_connection_timeout(SerialConnection *connection, const int timeo
 	tv.tv_sec = timeout;
 	tv.tv_usec = 0;
 
-	if (setsockopt(connection->fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
+	if (setsockopt(connection->fd, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0)
+	{
 		std::cerr << "Error from setsockopt: " << strerror(errno) << std::endl;
 		return false;
 	}

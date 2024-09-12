@@ -1,15 +1,15 @@
 #pragma once
 
-#include <stdint.h>
-#include <stddef.h>
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 
 typedef struct SerialDevice
 {
-	//const char *name;
+	// const char *name;
 	uint16_t pid;
 	uint16_t vid;
-	const char* path;
+	const char *path;
 } SerialDevice;
 
 /**

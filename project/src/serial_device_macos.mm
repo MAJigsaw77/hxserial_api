@@ -1,14 +1,14 @@
 #include "serial_device.h"
 
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 
-#import <IOKit/IOKitLib.h>
-#import <IOKit/usb/IOUSBLib.h>
-#import <IOKit/IOBSD.h>
-#import <IOKit/serial/IOSerialKeys.h>
 #import <CoreFoundation/CoreFoundation.h>
+#import <IOKit/IOBSD.h>
+#import <IOKit/IOKitLib.h>
+#import <IOKit/serial/IOSerialKeys.h>
+#import <IOKit/usb/IOUSBLib.h>
 
 bool get_serial_devices(SerialDevice **devices, size_t *count)
 {
@@ -25,17 +25,22 @@ bool get_serial_devices(SerialDevice **devices, size_t *count)
 
 	while ((usbDevice = IOIteratorNext(iterator)))
 	{
-		CFStringRef devicePathRef = (CFStringRef) IORegistryEntryCreateCFProperty(usbDevice, CFSTR(kIOCalloutDeviceKey), kCFAllocatorDefault, 0);
+		CFStringRef devicePathRef =
+		    (CFStringRef)IORegistryEntryCreateCFProperty(usbDevice, CFSTR(kIOCalloutDeviceKey), kCFAllocatorDefault, 0);
 		io_registry_entry_t parent;
 		kr = IORegistryEntryGetParentEntry(usbDevice, kIOServicePlane, &parent);
-		if (kr == KERN_SUCCESS) {
-			CFNumberRef vendorIDRef = (CFNumberRef)IORegistryEntryCreateCFProperty(parent, CFSTR(kUSBVendorID), kCFAllocatorDefault, 0);
-			CFNumberRef productIDRef = (CFNumberRef)IORegistryEntryCreateCFProperty(parent, CFSTR(kUSBProductID), kCFAllocatorDefault, 0);
-			//CFStringRef deviceNameRef = (CFStringRef)IORegistryEntryCreateCFProperty(parent, CFSTR(kUSBProductString), kCFAllocatorDefault, 0);
+		if (kr == KERN_SUCCESS)
+		{
+			CFNumberRef vendorIDRef =
+			    (CFNumberRef)IORegistryEntryCreateCFProperty(parent, CFSTR(kUSBVendorID), kCFAllocatorDefault, 0);
+			CFNumberRef productIDRef =
+			    (CFNumberRef)IORegistryEntryCreateCFProperty(parent, CFSTR(kUSBProductID), kCFAllocatorDefault, 0);
+			// CFStringRef deviceNameRef = (CFStringRef)IORegistryEntryCreateCFProperty(parent, CFSTR(kUSBProductString),
+			// kCFAllocatorDefault, 0);
 
 			int vendorID = 0;
 			int productID = 0;
-			//char deviceName[256] = "Unknown Device";
+			// char deviceName[256] = "Unknown Device";
 			char devicePath[1024] = "Unknown Path";
 
 			if (vendorIDRef)
@@ -50,11 +55,11 @@ bool get_serial_devices(SerialDevice **devices, size_t *count)
 				CFRelease(productIDRef);
 			}
 
-			//if (deviceNameRef)
+			// if (deviceNameRef)
 			//{
 			//	CFStringGetCString(deviceNameRef, deviceName, sizeof(deviceName), kCFStringEncodingUTF8);
 			//	CFRelease(deviceNameRef);
-			//}
+			// }
 
 			if (devicePathRef)
 			{
@@ -64,7 +69,7 @@ bool get_serial_devices(SerialDevice **devices, size_t *count)
 
 			deviceList = (SerialDevice *)realloc(deviceList, sizeof(SerialDevice) * (deviceCount + 1));
 
-			//deviceList[deviceCount].name = strdup(deviceName);
+			// deviceList[deviceCount].name = strdup(deviceName);
 			deviceList[deviceCount].pid = (uint16_t)productID;
 			deviceList[deviceCount].vid = (uint16_t)vendorID;
 			deviceList[deviceCount].path = strdup(devicePath);
@@ -87,7 +92,7 @@ void free_serial_devices(SerialDevice *devices, size_t count)
 {
 	for (size_t i = 0; i < count; i++)
 	{
-		//free((void *)devices[i].name);
+		// free((void *)devices[i].name);
 		free((void *)devices[i].path);
 	}
 
