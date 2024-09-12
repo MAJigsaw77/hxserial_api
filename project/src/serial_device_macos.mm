@@ -29,37 +29,15 @@ bool get_serial_devices(SerialDevice **devices, size_t *count)
 		    (CFStringRef)IORegistryEntryCreateCFProperty(usbDevice, CFSTR(kIOCalloutDeviceKey), kCFAllocatorDefault, 0);
 		io_registry_entry_t parent;
 		kr = IORegistryEntryGetParentEntry(usbDevice, kIOServicePlane, &parent);
+
 		if (kr == KERN_SUCCESS)
 		{
 			CFNumberRef vendorIDRef =
 			    (CFNumberRef)IORegistryEntryCreateCFProperty(parent, CFSTR(kUSBVendorID), kCFAllocatorDefault, 0);
 			CFNumberRef productIDRef =
 			    (CFNumberRef)IORegistryEntryCreateCFProperty(parent, CFSTR(kUSBProductID), kCFAllocatorDefault, 0);
-			// CFStringRef deviceNameRef = (CFStringRef)IORegistryEntryCreateCFProperty(parent, CFSTR(kUSBProductString),
-			// kCFAllocatorDefault, 0);
 
-			int vendorID = 0;
-			int productID = 0;
-			// char deviceName[256] = "Unknown Device";
 			char devicePath[1024] = "Unknown Path";
-
-			if (vendorIDRef)
-			{
-				CFNumberGetValue(vendorIDRef, kCFNumberIntType, &vendorID);
-				CFRelease(vendorIDRef);
-			}
-
-			if (productIDRef)
-			{
-				CFNumberGetValue(productIDRef, kCFNumberIntType, &productID);
-				CFRelease(productIDRef);
-			}
-
-			// if (deviceNameRef)
-			//{
-			//	CFStringGetCString(deviceNameRef, deviceName, sizeof(deviceName), kCFStringEncodingUTF8);
-			//	CFRelease(deviceNameRef);
-			// }
 
 			if (devicePathRef)
 			{
@@ -67,12 +45,27 @@ bool get_serial_devices(SerialDevice **devices, size_t *count)
 				CFRelease(devicePathRef);
 			}
 
+			int vendorID = 0;
+
+			if (vendorIDRef)
+			{
+				CFNumberGetValue(vendorIDRef, kCFNumberIntType, &vendorID);
+				CFRelease(vendorIDRef);
+			}
+
+			int productID = 0;
+
+			if (productIDRef)
+			{
+				CFNumberGetValue(productIDRef, kCFNumberIntType, &productID);
+				CFRelease(productIDRef);
+			}
+
 			deviceList = (SerialDevice *)realloc(deviceList, sizeof(SerialDevice) * (deviceCount + 1));
 
-			// deviceList[deviceCount].name = strdup(deviceName);
+			deviceList[deviceCount].path = strdup(devicePath);
 			deviceList[deviceCount].pid = (uint16_t)productID;
 			deviceList[deviceCount].vid = (uint16_t)vendorID;
-			deviceList[deviceCount].path = strdup(devicePath);
 
 			IOObjectRelease(usbDevice);
 
@@ -91,10 +84,7 @@ bool get_serial_devices(SerialDevice **devices, size_t *count)
 void free_serial_devices(SerialDevice *devices, size_t count)
 {
 	for (size_t i = 0; i < count; i++)
-	{
-		// free((void *)devices[i].name);
 		free((void *)devices[i].path);
-	}
 
 	free(devices);
 }
