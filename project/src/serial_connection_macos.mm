@@ -204,6 +204,7 @@ int read_byte_serial_connection(const SerialConnection *connection, uint8_t *dat
 
 int read_until_serial_connection(const SerialConnection *connection, uint8_t *data, const char until)
 {
+	size_t size = 256;
 	int bytes_read = 0;
 
 	while (bytes_read < size)
