@@ -7,9 +7,8 @@ import hxserial_api.Types;
 
 /**
  * API for managing serial devices.
- * This class provides functions for retrieving and freeing serial device
- * information. It allows you to list available serial devices and
- * release the allocated memory for device data.
+ * This class provides functions for retrieving and freeing serial device information.
+ * It allows you to list available serial devices and release the allocated memory for device data.
  */
 @:buildXml('<include name="${haxelib:hxserial_api}/project/Build.xml" />')
 @:include('serial_device.hpp')
