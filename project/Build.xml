@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xml>
+	<pragma once="true" />
+
+	<files id="haxe">
+		<compilerflag value="-I${this_dir}/include/" />
+	</files>
+
+	<files id="__main__">
+		<compilerflag value="-I${this_dir}/include/" />
+	</files>
+
+	<files id="serialapi">
+		<compilerflag value="-I${this_dir}/include/" />
+		<section if="macos">
+			<file name="${this_dir}/src/mac/serial_device.mm" />
+		</section>
+		<section if="linux">
+			<file name="${this_dir}/src/linux/serial_device.cpp" />
+		</section>
+		<section if="windows">
+			<file name="${this_dir}/src/windows/serial_device.cpp" />
+		</section>
+	</files>
+
+	<target id="haxe">
+		<section if="macos">
+			<vflag name="-framework" value="IOKit" />
+			<vflag name="-framework" value="AppKit" />
+			<vflag name="-framework" value="Cocoa" />
+			<vflag name="-framework" value="Foundation" />
+		</section>
+
+		<files id="serialapi" />
+	</target>
+</xml>
