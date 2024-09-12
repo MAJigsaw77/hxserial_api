@@ -270,7 +270,6 @@ int read_until_serial_connection(const SerialConnection *connection, uint8_t *da
 
 int read_until_line_serial_connection(const SerialConnection *connection, uint8_t *data)
 {
-	char until = '\n';
 	int bytes_read = 0;
 
 	while (true)
@@ -279,7 +278,7 @@ int read_until_line_serial_connection(const SerialConnection *connection, uint8_
 
 		if (bytes == -1)
 			return -1;
-		else if (bytes == 0 || data[bytes_read] == until)
+		else if (bytes == 0 || data[bytes_read] == '\n')
 			return bytes_read;
 		else if (data[bytes_read] == '\r')
 		{
@@ -289,7 +288,7 @@ int read_until_line_serial_connection(const SerialConnection *connection, uint8_
 
 			if (bytes == -1)
 				return bytes;
-			else if (bytes == 0 || data[bytes_read] == until)
+			else if (bytes == 0 || data[bytes_read] == '\n')
 				return bytes_read;
 		}
 
