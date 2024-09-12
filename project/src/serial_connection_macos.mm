@@ -13,7 +13,7 @@
 #import <IOKit/serial/IOSerialKeys.h>
 #import <IOKit/usb/IOUSBLib.h>
 
-bool configureSerialPort(int fd)
+static bool configureSerialPort(int fd)
 {
 	struct termios tty;
 
@@ -66,6 +66,16 @@ bool open_serial_connection(SerialDevice *device, SerialConnection **connection)
 
 	(*connection) = conn;
 	return true;
+}
+
+void close_serial_connection(SerialConnection *connection)
+{
+	close(connection->fd);
+}
+
+void free_serial_connection(SerialConnection *connection)
+{
+	free(connection);
 }
 
 bool set_serial_connection_baud(SerialConnection *connection, const int baud)
@@ -249,7 +259,7 @@ int read_until_serial_connection(const SerialConnection *connection, uint8_t *da
 		int bytes = read(connection->fd, data + bytes_read, 1);
 
 		if (bytes == -1)
-			return -1;
+			return bytes;
 		else if (bytes == 0 || data[bytes_read] == until)
 			return bytes_read;
 
@@ -280,10 +290,8 @@ int read_until_line_serial_connection(const SerialConnection *connection, uint8_
 			int bytes = read(connection->fd, data + bytes_read, 1);
 
 			if (bytes == -1)
-				return -1;
-			else if (bytes == 0)
-				return bytes_read;
-			else if (data[bytes_read] == until)
+				return bytes;
+			else if (bytes == 0 || data[bytes_read] == until)
 				return bytes_read;
 		}
 
@@ -313,14 +321,4 @@ int write_byte_serial_connection(SerialConnection *connection, const uint8_t dat
 int write_string_serial_connection(SerialConnection *connection, const char *data)
 {
 	return write(connection->fd, data, strlen(data));
-}
-
-void close_serial_connection(SerialConnection *connection)
-{
-	close(connection->fd);
-}
-
-void free_serial_connection(SerialConnection *connection)
-{
-	free(connection);
 }
