@@ -84,7 +84,7 @@ void free_serial_connection(SerialConnection *connection)
 		free(connection);
 }
 
-bool set_serial_connection_baud(SerialConnection *connection, const int baud)
+bool set_serial_connection_baud(SerialConnection *connection, int baud)
 {
 	DCB dcb;
 	dcb.DCBlength = sizeof(dcb);
@@ -135,7 +135,7 @@ bool set_serial_connection_baud(SerialConnection *connection, const int baud)
 	return true;
 }
 
-bool set_serial_connection_char_size(SerialConnection *connection, const int char_size)
+bool set_serial_connection_char_size(SerialConnection *connection, int char_size)
 {
 	DCB dcb;
 
@@ -154,7 +154,7 @@ bool set_serial_connection_char_size(SerialConnection *connection, const int cha
 	return true;
 }
 
-bool set_serial_connection_parity(SerialConnection *connection, const int parity)
+bool set_serial_connection_parity(SerialConnection *connection, int parity)
 {
 	DCB dcb;
 
@@ -173,7 +173,7 @@ bool set_serial_connection_parity(SerialConnection *connection, const int parity
 	return true;
 }
 
-bool set_serial_connection_stop_bits(SerialConnection *connection, const int stop_bits)
+bool set_serial_connection_stop_bits(SerialConnection *connection, int stop_bits)
 {
 	DCB dcb;
 
@@ -192,7 +192,7 @@ bool set_serial_connection_stop_bits(SerialConnection *connection, const int sto
 	return true;
 }
 
-bool set_serial_connection_data_bits(SerialConnection *connection, const int data_bits)
+bool set_serial_connection_data_bits(SerialConnection *connection, int data_bits)
 {
 	DCB dcb;
 
@@ -211,7 +211,7 @@ bool set_serial_connection_data_bits(SerialConnection *connection, const int dat
 	return true;
 }
 
-bool set_serial_connection_flow_control(SerialConnection *connection, const int flow_control)
+bool set_serial_connection_flow_control(SerialConnection *connection, int flow_control)
 {
 	if (!SetCommMask(connection->fd, flow_control))
 		return false;
@@ -221,7 +221,7 @@ bool set_serial_connection_flow_control(SerialConnection *connection, const int 
 	return true;
 }
 
-bool set_serial_connection_timeout(SerialConnection *connection, const int timeout)
+bool set_serial_connection_timeout(SerialConnection *connection, int timeout)
 {
 	COMMTIMEOUTS timeouts;
 	timeouts.ReadIntervalTimeout = 0;

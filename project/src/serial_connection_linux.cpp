@@ -77,7 +77,7 @@ void free_serial_connection(SerialConnection *connection)
 		free(connection);
 }
 
-bool set_serial_connection_baud(SerialConnection *connection, const int baud)
+bool set_serial_connection_baud(SerialConnection *connection, int baud)
 {
 	struct termios tty;
 
@@ -135,7 +135,7 @@ bool set_serial_connection_baud(SerialConnection *connection, const int baud)
 	return true;
 }
 
-bool set_serial_connection_char_size(SerialConnection *connection, const int char_size)
+bool set_serial_connection_char_size(SerialConnection *connection, int char_size)
 {
 	struct termios tty;
 
@@ -157,7 +157,7 @@ bool set_serial_connection_char_size(SerialConnection *connection, const int cha
 	return true;
 }
 
-bool set_serial_connection_parity(SerialConnection *connection, const int parity)
+bool set_serial_connection_parity(SerialConnection *connection, int parity)
 {
 	struct termios tty;
 
@@ -181,7 +181,7 @@ bool set_serial_connection_parity(SerialConnection *connection, const int parity
 	return true;
 }
 
-bool set_serial_connection_stop_bits(SerialConnection *connection, const int stop_bits)
+bool set_serial_connection_stop_bits(SerialConnection *connection, int stop_bits)
 {
 	struct termios tty;
 
@@ -210,7 +210,7 @@ bool set_serial_connection_stop_bits(SerialConnection *connection, const int sto
 	return true;
 }
 
-bool set_serial_connection_flow_control(SerialConnection *connection, const int flow_control)
+bool set_serial_connection_flow_control(SerialConnection *connection, int flow_control)
 {
 	struct termios tty;
 
@@ -234,7 +234,7 @@ bool set_serial_connection_flow_control(SerialConnection *connection, const int 
 	return true;
 }
 
-bool set_serial_connection_timeout(SerialConnection *connection, const int timeout)
+bool set_serial_connection_timeout(SerialConnection *connection, int timeout)
 {
 	struct termios tty;
 

@@ -31,12 +31,12 @@ bool open_serial_connection(SerialDevice *device, SerialConnection **connection)
 void close_serial_connection(SerialConnection *connection);
 void free_serial_connection(SerialConnection *connection);
 
-bool set_serial_connection_baud(SerialConnection *connection, const int baud);
-bool set_serial_connection_char_size(SerialConnection *connection, const int char_size);
-bool set_serial_connection_parity(SerialConnection *connection, const int parity);
-bool set_serial_connection_stop_bits(SerialConnection *connection, const int stop_bits);
-bool set_serial_connection_flow_control(SerialConnection *connection, const int flow_control);
-bool set_serial_connection_timeout(SerialConnection *connection, const int timeout);
+bool set_serial_connection_baud(SerialConnection *connection, int baud);
+bool set_serial_connection_char_size(SerialConnection *connection, int char_size);
+bool set_serial_connection_parity(SerialConnection *connection, int parity);
+bool set_serial_connection_stop_bits(SerialConnection *connection, int stop_bits);
+bool set_serial_connection_flow_control(SerialConnection *connection, int flow_control);
+bool set_serial_connection_timeout(SerialConnection *connection, int timeout);
 
 int read_serial_connection(const SerialConnection *connection, uint8_t *data, const size_t size);
 int read_byte_serial_connection(const SerialConnection *connection, uint8_t *data);
