@@ -1,4 +1,4 @@
-#include "serial_device.h"
+#include "serial_device.hpp"
 
 #include <stdbool.h>
 #include <stdlib.h>

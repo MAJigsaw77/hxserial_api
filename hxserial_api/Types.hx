@@ -6,7 +6,7 @@ package hxserial_api;
 class Types {}
 
 @:buildXml('<include name="${haxelib:hxserial_api}/project/Build.xml" />')
-@:include('serial_device.h')
+@:include('serial_device.hpp')
 @:unreflective
 @:structAccess
 @:native('SerialDevice')
@@ -21,7 +21,7 @@ extern class SerialDevice
 }
 
 @:buildXml('<include name="${haxelib:hxserial_api}/project/Build.xml" />')
-@:include('serial_connection.h')
+@:include('serial_connection.hpp')
 @:unreflective
 @:structAccess
 @:native('SerialConnection')

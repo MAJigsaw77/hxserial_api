@@ -6,7 +6,7 @@ package hxserial_api;
 import hxserial_api.Types;
 
 @:buildXml('<include name="${haxelib:hxserial_api}/project/Build.xml" />')
-@:include('serial_device.h')
+@:include('serial_device.hpp')
 @:unreflective
 extern class SerialDeviceAPI
 {

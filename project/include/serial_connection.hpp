@@ -1,6 +1,6 @@
 #pragma once
 
-#include "serial_device.h"
+#include "serial_device.hpp"
 
 #if HX_WINDOWS
 #include <windows.h>

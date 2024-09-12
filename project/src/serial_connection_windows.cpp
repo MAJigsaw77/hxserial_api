@@ -1,4 +1,4 @@
-#include "serial_connection.h"
+#include "serial_connection.hpp"
 
 #include <windows.h>
 #include <iostream>
