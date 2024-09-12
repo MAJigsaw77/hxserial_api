@@ -9,8 +9,6 @@
 
 #include <iostream>
 
-#pragma comment(lib, "Advapi32.lib")
-
 bool get_serial_devices(SerialDevice **devices, size_t *count)
 {
 	HDEVINFO deviceInfoSet;
