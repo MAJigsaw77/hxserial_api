@@ -12,19 +12,34 @@
 
 	<files id="serialapi">
 		<compilerflag value="-I${this_dir}/include/" />
-		<section if="macos">
-			<file name="${this_dir}/src/mac/serial_device.mm" />
-			<file name="${this_dir}/src/mac/serial_connection.mm" />
-		</section>
-		<section if="linux">
-			<file name="${this_dir}/src/linux/serial_device.cpp" />
-		</section>
+
 		<section if="windows">
-			<file name="${this_dir}/src/windows/serial_device.cpp" />
+			<file name="${this_dir}/src/serial_device_windows.cpp" />
+		</section>
+
+		<section if="linux">
+			<file name="${this_dir}/src/serial_device_linux.cpp" />
+		</section>
+
+		<section if="macos">
+			<file name="${this_dir}/src/serial_device_macos.mm" />
+			<file name="${this_dir}/src/serial_connection_macos.mm" />
 		</section>
 	</files>
 
 	<target id="haxe">
+		<section if="mingw">
+			<lib name="-lsetupapi" />
+			<lib name="-lcfgmgr32" />
+			<lib name="-ldevpkey" />
+		</section>
+
+		<section if="windows" unless="mingw">
+			<lib name="setupapi.lib" />
+			<lib name="cfgmgr32.lib" />
+			<lib name="devpkey.lib" />
+		</section>
+
 		<section if="macos">
 			<vflag name="-framework" value="IOKit" />
 			<vflag name="-framework" value="AppKit" />
