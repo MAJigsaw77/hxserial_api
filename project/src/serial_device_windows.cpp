@@ -7,7 +7,3 @@
 #include <devpkey.h>
 #include <stdio.h>
 #include <tchar.h>
-
-#pragma comment(lib, "setupapi.lib")
-#pragma comment(lib, "cfgmgr32.lib")
-#pragma comment(lib, "devpkey.lib")
