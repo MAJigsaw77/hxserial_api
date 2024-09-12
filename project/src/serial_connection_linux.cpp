@@ -87,7 +87,7 @@ bool set_serial_connection_baud(SerialConnection *connection, const int baud)
 		return false;
 	}
 
-	int baud_enum;
+	int baud_enum = B9600;
 
 	switch (baud)
 	{
@@ -282,6 +282,36 @@ int read_until_serial_connection(const SerialConnection *connection, uint8_t *da
 	}
 
 	return bytes_read;
+}
+
+int read_until_line_serial_connection(const SerialConnection *connection, uint8_t *data)
+{
+	int bytes_read = 0;
+
+	while (true)
+	{
+		int bytes = read(connection->fd, data + bytes_read, 1);
+
+		if (bytes == -1)
+			return -1;
+		else if (bytes == 0 || data[bytes_read] == '\n')
+			return bytes_read;
+		else if (data[bytes_read] == '\r')
+		{
+			bytes_read++;
+
+			int bytes = read(connection->fd, data + bytes_read, 1);
+
+			if (bytes == -1)
+				return bytes;
+			else if (bytes == 0 || data[bytes_read] == '\n')
+				return bytes_read;
+		}
+
+		bytes_read++;
+	}
+
+	return -1;
 }
 
 int has_available_data_serial_connection(const SerialConnection *connection)

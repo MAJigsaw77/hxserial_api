@@ -1,17 +1,12 @@
 #include "serial_connection.hpp"
 
 #include <stdbool.h>
-#include <stdlib.h>
 #include <sys/ioctl.h>
 #include <sys/socket.h>
 #include <termios.h>
 
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
-#import <IOKit/IOBSD.h>
-#import <IOKit/IOKitLib.h>
-#import <IOKit/serial/IOSerialKeys.h>
-#import <IOKit/usb/IOUSBLib.h>
 
 static bool configureSerialPort(SerialConnection *connection, int fd)
 {
@@ -123,12 +118,12 @@ bool set_serial_connection_baud(SerialConnection *connection, const int baud)
 		baud_enum = B230400;
 		break;
 	default:
-		NSLog(@"Error from cfsetospeed: %s", strerror(errno));
+		NSLog(@"Unsupported baud rate: %s", strerror(errno));
 		return false;
 	}
 
-	cfsetospeed(&tty, baud);
-	cfsetispeed(&tty, baud);
+	cfsetospeed(&tty, baud_enum);
+	cfsetispeed(&tty, baud_enum);
 
 	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0)
 	{
@@ -171,8 +166,10 @@ bool set_serial_connection_parity(SerialConnection *connection, const int parity
 		return false;
 	}
 
-	tty.c_cflag &= ~PARENB;
-	tty.c_cflag |= parity;
+	if (parity == 0)
+		tty.c_cflag &= ~PARENB;
+	else
+		tty.c_cflag |= PARENB;
 
 	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0)
 	{
@@ -193,8 +190,15 @@ bool set_serial_connection_stop_bits(SerialConnection *connection, const int sto
 		return false;
 	}
 
-	tty.c_cflag &= ~CSTOPB;
-	tty.c_cflag |= stop_bits;
+	if (stop_bits == 1)
+		tty.c_cflag &= ~CSTOPB;
+	else if (stop_bits == 2)
+		tty.c_cflag |= CSTOPB;
+	else
+	{
+		NSLog(@"Unsupported number of stop bits: %d", stop_bits);
+		return false;
+	}
 
 	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0)
 	{
@@ -215,8 +219,10 @@ bool set_serial_connection_flow_control(SerialConnection *connection, const int 
 		return false;
 	}
 
-	tty.c_cflag &= ~CRTSCTS;
-	tty.c_cflag |= flow_control;
+	if (flow_control == 0)
+		tty.c_cflag &= ~CRTSCTS;
+	else if (flow_control == 1)
+		tty.c_cflag |= CRTSCTS;
 
 	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0)
 	{
