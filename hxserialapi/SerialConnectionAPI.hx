@@ -8,7 +8,7 @@ import hxserialapi.Types;
 @:buildXml('<include name="${haxelib:hxserialapi}/project/Build.xml" />')
 @:include('serial_connection.h')
 @:unreflective
-extern class SerialConnection
+extern class SerialConnectionAPI
 {
 	@:native('open_serial_connection')
 	static function open_serial_connection(device:cpp.RawPointer<SerialDevice>, connection:cpp.RawPointer<cpp.RawPointer<SerialConnection>>):Bool;
