@@ -6,6 +6,7 @@
 #include <termios.h>
 
 #import <CoreFoundation/CoreFoundation.h>
+#import <Foundation/Foundation.h>
 #import <IOKit/IOBSD.h>
 #import <IOKit/IOKitLib.h>
 #import <IOKit/serial/IOSerialKeys.h>
