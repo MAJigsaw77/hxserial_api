@@ -14,6 +14,7 @@
 		<compilerflag value="-I${this_dir}/include/" />
 		<section if="macos">
 			<file name="${this_dir}/src/mac/serial_device.mm" />
+			<file name="${this_dir}/src/mac/serial_connection.mm" />
 		</section>
 		<section if="linux">
 			<file name="${this_dir}/src/linux/serial_device.cpp" />

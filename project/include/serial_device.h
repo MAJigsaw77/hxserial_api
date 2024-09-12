@@ -4,10 +4,6 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 typedef struct SerialDevice
 {
 	//const char *name;
@@ -32,7 +28,3 @@ bool get_serial_devices(SerialDevice **devices, size_t *count);
  * @param count The number of devices in the array.
  */
 void free_serial_devices(SerialDevice *devices, size_t count);
-
-#ifdef __cplusplus
-}
-#endif
