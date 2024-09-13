@@ -6,13 +6,14 @@ import hxserial_api.externs.Types;
 @:allow(hxserial_api.Serial)
 class Device
 {
-	var device:SerialDevice;
-
 	public var path(get, never):String;
 	public var vID(get, never):Int;
 	public var pID(get, never):Int;
 
-	public function new(device:SerialDevice)
+	@:noCompletion
+	private var device:cpp.Struct<SerialDevice>;
+
+	public function new(device:cpp.Struct<SerialDevice>):Void
 	{
 		this.device = device;
 	}
