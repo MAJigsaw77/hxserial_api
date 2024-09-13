@@ -3,7 +3,6 @@ package hxserial_api;
 import hxserial_api.externs.SerialDeviceAPI;
 import hxserial_api.externs.Types;
 
-@:allow(hxserial_api.Serial)
 class Device
 {
 	public static function getDevices():Array<Device>
@@ -39,16 +38,19 @@ class Device
 		this.device = device;
 	}
 
+	@:noCompletion
 	private function get_path():String
 	{
 		return this.device.path;
 	}
 
+	@:noCompletion
 	private function get_vID():Int
 	{
 		return this.device.vID;
 	}
 
+	@:noCompletion
 	private function get_pID():Int
 	{
 		return this.device.pID;
