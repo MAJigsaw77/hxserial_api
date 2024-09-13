@@ -30,6 +30,7 @@ int read_until_string_serial_connection(SerialConnection *connection, uint8_t *d
 	while (true)
 	{
 		int bytes = read_serial_connection(connection, data + bytes_read, 1);
+
 		if (bytes == -1)
 			return -1;
 		else if (bytes == 0)
@@ -38,6 +39,7 @@ int read_until_string_serial_connection(SerialConnection *connection, uint8_t *d
 		if (data[bytes_read] == until[matched_len])
 		{
 			matched_len++;
+
 			if (matched_len == until_len)
 				return bytes_read + 1;
 		}
