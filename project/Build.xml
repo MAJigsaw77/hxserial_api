@@ -3,15 +3,15 @@
 	<pragma once="true" />
 
 	<files id="haxe">
-		<compilerflag value="-I${haxelib:hxserial_api}/project/include/" />
+		<compilerflag value="-I${haxelib:hxserial_api}/project/include" />
 	</files>
 
 	<files id="__main__">
-		<compilerflag value="-I${haxelib:hxserial_api}/project/include/" />
+		<compilerflag value="-I${haxelib:hxserial_api}/project/include" />
 	</files>
 
 	<files id="serial_api">
-		<compilerflag value="-I${haxelib:hxserial_api}/project/include/" />
+		<compilerflag value="-I${haxelib:hxserial_api}/project/include" />
 
 		<section if="windows">
 			<compilerflag value="-DWIN32_LEAN_AND_MEAN" />
