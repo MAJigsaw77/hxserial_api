@@ -3,6 +3,12 @@
 #include "serial_device.hpp"
 
 #ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#define NOGDI
+#define NOIME
+#define NOCOMM
+#define NOMCX
+
 #include <windows.h>
 #endif
 
