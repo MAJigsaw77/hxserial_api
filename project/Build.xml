@@ -21,16 +21,19 @@
 			<compilerflag value="-DNOMCX" />
 
 			<file name="${haxelib:hxserial_api}/project/src/serial_connection_windows.cpp" />
+			<file name="${haxelib:hxserial_api}/project/src/serial_connection_common.cpp" />
 			<file name="${haxelib:hxserial_api}/project/src/serial_device_windows.cpp" />
 		</section>
 
 		<section if="linux">
 			<file name="${haxelib:hxserial_api}/project/src/serial_connection_linux.cpp" />
+			<file name="${haxelib:hxserial_api}/project/src/serial_connection_common.cpp" />
 			<file name="${haxelib:hxserial_api}/project/src/serial_device_linux.cpp" />
 		</section>
 
 		<section if="macos">
 			<file name="${haxelib:hxserial_api}/project/src/serial_connection_macos.mm" />
+			<file name="${haxelib:hxserial_api}/project/src/serial_connection_common.cpp" />
 			<file name="${haxelib:hxserial_api}/project/src/serial_device_macos.mm" />
 		</section>
 	</files>

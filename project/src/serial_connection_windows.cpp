@@ -253,48 +253,6 @@ int read_byte_serial_connection(SerialConnection *connection, uint8_t *data)
 	return read_serial_connection(connection, data, 1);
 }
 
-int read_until_serial_connection(SerialConnection *connection, uint8_t *data, uint8_t until)
-{
-	int bytes_read = 0;
-
-	while (true)
-	{
-		int bytes = read_serial_connection(connection, data + bytes_read, 1);
-
-		if (bytes < 0)
-			return -1;
-
-		bytes_read += bytes;
-
-		if (data[bytes_read - 1] == until)
-			break;
-	}
-
-	return bytes_read;
-}
-
-int read_until_line_serial_connection(SerialConnection *connection, uint8_t *data)
-{
-	int bytes_read = 0;
-
-	while (true)
-	{
-		int bytes = read_serial_connection(connection, data + bytes_read, 1);
-
-		if (bytes < 0)
-			return -1;
-
-		bytes_read += bytes;
-
-		if (data[bytes_read - 1] == '\n')
-			break;
-	}
-
-	data[bytes_read - 1] = '\0';
-
-	return bytes_read;
-}
-
 int has_available_data_serial_connection(SerialConnection *connection)
 {
 	COMSTAT comstat;

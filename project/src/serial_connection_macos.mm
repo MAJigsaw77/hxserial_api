@@ -258,55 +258,6 @@ int read_byte_serial_connection(SerialConnection *connection, uint8_t *data)
 	return read(connection->fd, data, 1);
 }
 
-int read_until_serial_connection(SerialConnection *connection, uint8_t *data, uint8_t until)
-{
-	int bytes_read = 0;
-
-	while (true)
-	{
-		int bytes = read(connection->fd, data + bytes_read, 1);
-
-		if (bytes == -1)
-			return bytes;
-		else if (bytes == 0 || data[bytes_read] == until)
-			return bytes_read;
-
-		bytes_read++;
-	}
-
-	return bytes_read;
-}
-
-int read_until_line_serial_connection(SerialConnection *connection, uint8_t *data)
-{
-	int bytes_read = 0;
-
-	while (true)
-	{
-		int bytes = read(connection->fd, data + bytes_read, 1);
-
-		if (bytes == -1)
-			return -1;
-		else if (bytes == 0 || data[bytes_read] == '\n')
-			return bytes_read;
-		else if (data[bytes_read] == '\r')
-		{
-			bytes_read++;
-
-			int bytes = read(connection->fd, data + bytes_read, 1);
-
-			if (bytes == -1)
-				return bytes;
-			else if (bytes == 0 || data[bytes_read] == '\n')
-				return bytes_read;
-		}
-
-		bytes_read++;
-	}
-
-	return -1;
-}
-
 int has_available_data_serial_connection(SerialConnection *connection)
 {
 	int bytes_available = 0;
