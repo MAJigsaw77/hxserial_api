@@ -9,7 +9,7 @@ class Device
 	{
 		final devices:cpp.RawPointer<SerialDevice> = untyped __cpp__('nullptr');
 
-		var count:cpp.SizeT = 0;
+		final count:cpp.SizeT = 0;
 
 		if (SerialDeviceAPI.get_serial_devices(cpp.RawPointer.addressOf(devices), cpp.RawPointer.addressOf(count)))
 		{
