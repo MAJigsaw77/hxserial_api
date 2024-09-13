@@ -3,7 +3,7 @@ package hxserial_api.externs;
 #if !cpp
 #error 'Serial API supports only C++ target platforms.'
 #end
-import hxserial_api.Types;
+import hxserial_api.externs.Types;
 
 /**
  * API for managing serial connections.
