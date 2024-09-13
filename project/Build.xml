@@ -14,6 +14,14 @@
 		<compilerflag value="-I${haxelib:hxserial_api}/project/include/" />
 
 		<section if="windows">
+			<compilerflag value="-DWIN32_LEAN_AND_MEAN" />
+			<compilerflag value="-DNOGDI" />
+			<compilerflag value="-DNOUSER" />
+			<compilerflag value="-DNOSERVICE" />
+			<compilerflag value="-DNOIME" />
+			<compilerflag value="-DNOCOMM" />
+			<compilerflag value="-DNOMCX" />
+
 			<file name="${haxelib:hxserial_api}/project/src/serial_connection_windows.cpp" />
 			<file name="${haxelib:hxserial_api}/project/src/serial_device_windows.cpp" />
 		</section>
