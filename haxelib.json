@@ -4,9 +4,10 @@
 	"license": "MIT",
 	"tags": [
 		"cpp",
-		"haxe"
+		"haxe",
+		"serial-devices"
 	],
-	"description": "",
+	"description": "Haxe/hxcpp @:native integration for managing serial connections and devices.",
 	"version": "1.0.0",
 	"releasenote": "First Release.",
 	"contributors": [
