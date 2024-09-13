@@ -1,5 +1,11 @@
 #include "serial_connection.hpp"
 
+#define WIN32_LEAN_AND_MEAN
+#define NOGDI
+#define NOIME
+#define NOCOMM
+#define NOMCX
+
 #include <windows.h>
 #include <iostream>
 
