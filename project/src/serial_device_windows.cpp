@@ -101,11 +101,3 @@ bool get_serial_devices(SerialDevice **devices, size_t *count)
 
 	return false;
 }
-
-void free_serial_devices(SerialDevice *devices, size_t count)
-{
-	for (size_t i = 0; i < count; i++)
-		free((void *)devices[i].path);
-
-	free(devices);
-}

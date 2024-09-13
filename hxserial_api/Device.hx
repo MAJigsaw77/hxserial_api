@@ -15,7 +15,7 @@ class Device
 		{
 			final devicesList:Array<Device> = [for (i in 0...count) new Device(devices[i])];
 
-			SerialDeviceAPI.free_serial_devices(devices, count);
+			cpp.Stdlib.nativeFree(untyped devices);
 
 			return devicesList;
 		}

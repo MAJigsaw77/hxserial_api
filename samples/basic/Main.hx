@@ -53,7 +53,7 @@ class Main
 				}
 			}
 
-			SerialDeviceAPI.free_serial_devices(devices, count);
+			cpp.Stdlib.nativeFree(untyped devices);
 		}
 		else
 			Sys.println('No devices found.');

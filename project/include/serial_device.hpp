@@ -12,4 +12,3 @@ typedef struct SerialDevice
 } SerialDevice;
 
 bool get_serial_devices(SerialDevice **devices, size_t *count);
-void free_serial_devices(SerialDevice *devices, size_t count);
