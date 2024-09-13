@@ -17,11 +17,13 @@ typedef struct SerialConnection
 	int char_size;
 	int parity;
 	int stop_bits;
+#ifdef _WIN32
+	int data_bits;
+#endif
 	int flow_control;
 	int timeout;
 #ifdef _WIN32
 	HANDLE fd;
-	int data_bits;
 #else
 	int fd;
 #endif
