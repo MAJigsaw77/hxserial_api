@@ -89,7 +89,7 @@ extern class SerialConnectionAPI
 	 * Sets the data bits for the serial connection.
 	 *
 	 * @param connection A pointer to the `SerialConnection` object to configure.
-	 * @param stop_bits The number of data bits (typically 5, 6, 7, or 8).
+	 * @param data_bits The number of data bits (typically 5, 6, 7, or 8).
 	 * @return true if the data bits were successfully set, false otherwise.
 	 */
 	@:native('set_serial_connection_data_bits')
@@ -145,8 +145,20 @@ extern class SerialConnectionAPI
 	 * @param until The byte value to read until (e.g., newline character).
 	 * @return The number of bytes read, or -1 if an error occurred.
 	 */
-	@:native('read_until_serial_connection')
-	static function read_until_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.RawPointer<cpp.UInt8>, until:cpp.UInt8):Int;
+	@:native('read_until_byte_serial_connection')
+	static function read_until_byte_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.RawPointer<cpp.UInt8>, until:cpp.UInt8):Int;
+
+	/**
+	 * Reads data from the serial connection until a specific string is encountered.
+	 *
+	 * @param connection A pointer to the `SerialConnection` object to read from.
+	 * @param data A pointer to the buffer where the read data will be stored.
+	 * @param until The string value to read until (e.g., a specific terminator).
+	 * @return The number of bytes read, or -1 if an error occurred.
+	 */
+	@:native('read_until_string_serial_connection')
+	static function read_until_string_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.RawPointer<cpp.UInt8>,
+		until:cpp.ConstCharStar):Int;
 
 	/**
 	 * Reads data from the serial connection until a newline character is encountered.
