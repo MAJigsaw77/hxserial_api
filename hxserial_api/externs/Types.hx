@@ -1,4 +1,4 @@
-package hxserial_api;
+package hxserial_api.externs;
 
 #if !cpp
 #error 'Serial API supports only C++ target platforms.'
