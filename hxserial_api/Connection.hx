@@ -67,6 +67,7 @@ enum abstract Timeout(Int) from Int to Int
 
 class Connection
 {
+	public var connected(get, never):Bool;
 	public var baud(default, set):BaudRate;
 	public var charSize(default, set):CharSize;
 	public var parity(default, set):Parity;
@@ -76,7 +77,6 @@ class Connection
 	#end
 	public var flowControl(default, set):FlowControl;
 	public var timeout(default, set):Timeout;
-	public var connected(get, never):Bool;
 
 	@:noCompletion
 	private var connection:cpp.RawPointer<SerialConnection>;
@@ -125,19 +125,21 @@ class Connection
 
 	public function writeByte(data:UInt):Int
 	{
-		return connection != null ? SerialConnectionAPI.write_bytes_serial_connection(connection, data) : -1;
+		return connection != null ? SerialConnectionAPI.write_byte_serial_connection(connection, data) : -1;
 	}
 
 	public function writeString(data:String):Int
 	{
-		return connection != null ? SerialConnectionAPI.write_bytes_serial_connection(connection, data) : -1;
+		return connection != null ? SerialConnectionAPI.write_string_serial_connection(connection, data) : -1;
 	}
 
 	public function readByte():Int
 	{
-		var data:cpp.UInt8 = 0;
+		final data:cpp.UInt8 = 0;
+
 		if (connection != null)
 			SerialConnectionAPI.read_serial_connection(connection, cpp.RawPointer.addressOf(data), 1);
+
 		return data;
 	}
 
