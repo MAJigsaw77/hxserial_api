@@ -177,7 +177,7 @@ extern class SerialConnectionAPI
 	 * @return true if data is available, false otherwise.
 	 */
 	@:native('has_available_data_serial_connection')
-	static function has_available_data_serial_connection(connection:cpp.RawPointer<SerialConnection>):Bool;
+	static function has_available_data_serial_connection(connection:cpp.RawPointer<SerialConnection>):Int;
 
 	/**
 	 * Writes data to the serial connection.

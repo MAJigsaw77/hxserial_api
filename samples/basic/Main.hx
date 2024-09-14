@@ -3,7 +3,7 @@ package;
 import hxserial_api.externs.SerialConnectionAPI;
 import hxserial_api.externs.SerialDeviceAPI;
 import hxserial_api.externs.Types;
-import hxserial_api.Serial;
+import hxserial_api.Connection;
 import hxserial_api.Device;
 
 class Main
@@ -26,20 +26,16 @@ class Main
 				if (device.vID != 0 && device.pID != 0)
 				{
 					Sys.println("Connecting to device: " + device.path + ", vID: " + device.vID + ", pID: " + device.pID);
-					var serial = new Serial(device);
+
+					var serial = new Connection(device);
 					if (!serial.connected)
 					{
 						Sys.println('Failed to open connection.');
 						Sys.exit(1);
 					}
-					serial.setBaud(Serial.BAUD_115200);
-					// serial.setCharSize(Serial.CHAR_SIZE_8);
-					// serial.setParity(Serial.PARITY_NONE);
-					// serial.setStopBits(Serial.STOP_BITS_1);
-					// serial.setDataBits(Serial.CHAR_SIZE_8);
-					// serial.setFlowControl(Serial.FLOW_CONTROL_NONE);
+					serial.baud = BAUD_115200;
 
-					Sys.println('Opened connection.');
+					Sys.println('Opened connection to device.');
 
 					while (true)
 					{

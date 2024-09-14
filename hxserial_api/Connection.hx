@@ -68,14 +68,15 @@ enum abstract Timeout(Int) from Int to Int
 class Connection
 {
 	public var baud(default, set):BaudRate;
-	public var char_size(default, set):CharSize;
+	public var charSize(default, set):CharSize;
 	public var parity(default, set):Parity;
-	public var stop_bits(default, set):StopBits;
+	public var stopBits(default, set):StopBits;
 	#if windows
-	public var data_bits(default, set):DataBits;
+	public var dataBits(default, set):DataBits;
 	#end
-	public var flow_control(default, set):FlowControl;
+	public var flowControl(default, set):FlowControl;
 	public var timeout(default, set):Timeout;
+	public var connected(get, never):Bool;
 
 	@:noCompletion
 	private var connection:cpp.RawPointer<SerialConnection>;
@@ -93,7 +94,7 @@ class Connection
 
 		connection = untyped __cpp__('nullptr');
 
-		if (!SerialConnectionAPI.open_serial_connection(cpp.RawPointer.addressOf(device), cpp.RawPointer.addressOf(connection)))
+		if (!SerialConnectionAPI.open_serial_connection(cpp.RawPointer.addressOf(device.device), cpp.RawPointer.addressOf(connection)))
 			Sys.println('Failed to open connection.');
 	}
 
@@ -105,7 +106,7 @@ class Connection
 
 	public function hasAvailableData():Int
 	{
-		return connection != null ? SerialConnectionAPI.has_available_data_serial_connection(connection) : -1;
+		return connection != null ? SerialConnectionAPI.has_available_data_serial_connection(connection) : 0;
 	}
 
 	public function writeBytes(data:Bytes):Int
@@ -132,6 +133,20 @@ class Connection
 		return connection != null ? SerialConnectionAPI.write_bytes_serial_connection(connection, data) : -1;
 	}
 
+	public function readByte():Int
+	{
+		var data:cpp.UInt8 = 0;
+		if (connection != null)
+			SerialConnectionAPI.read_serial_connection(connection, cpp.RawPointer.addressOf(data), 1);
+		return data;
+	}
+
+	@:noCompletion
+	private function get_connected():Bool
+	{
+		return connection != null;
+	}
+
 	@:noCompletion
 	private function set_baud(value:BaudRate):BaudRate
 	{
@@ -142,12 +157,12 @@ class Connection
 	}
 
 	@:noCompletion
-	private function set_char_size(value:CharSize):CharSize
+	private function set_charSize(value:CharSize):CharSize
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_char_size(connection, value))
-			return char_size = value;
+			return charSize = value;
 
-		return char_size;
+		return charSize;
 	}
 
 	@:noCompletion
@@ -160,32 +175,32 @@ class Connection
 	}
 
 	@:noCompletion
-	private function set_stop_bits(value:StopBits):StopBits
+	private function set_stopBits(value:StopBits):StopBits
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_stop_bits(connection, value))
-			return stop_bits = value;
+			return stopBits = value;
 
-		return stop_bits;
+		return stopBits;
 	}
 
 	#if windows
 	@:noCompletion
-	private function set_data_bits(value:DataBits):DataBits
+	private function set_dataBits(value:DataBits):DataBits
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_data_bits(connection, value))
-			return data_bits = value;
+			return dataBits = value;
 
-		return data_bits;
+		return dataBits;
 	}
 	#end
 
 	@:noCompletion
-	private function set_flow_control(value:FlowControl):FlowControl
+	private function set_flowControl(value:FlowControl):FlowControl
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_flow_control(connection, value))
-			return flow_control = value;
+			return flowControl = value;
 
-		return flow_control;
+		return flowControl;
 	}
 
 	@:noCompletion
