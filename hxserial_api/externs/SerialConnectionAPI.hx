@@ -188,7 +188,7 @@ extern class SerialConnectionAPI
 	 * @return The number of bytes written, or -1 if an error occurred.
 	 */
 	@:native('write_bytes_serial_connection')
-	static function write_bytes_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.RawPointer<cpp.UInt8>, size:cpp.SizeT):Int;
+	static function write_bytes_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.RawConstPointer<cpp.UInt8>, size:cpp.SizeT):Int;
 
 	/**
 	 * Writes a single byte to the serial connection.
