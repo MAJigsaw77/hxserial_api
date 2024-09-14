@@ -94,7 +94,9 @@ class Connection
 
 		connection = untyped __cpp__('nullptr');
 
-		if (!SerialConnectionAPI.open_serial_connection(cpp.RawPointer.addressOf(device.device), cpp.RawPointer.addressOf(connection)))
+		final device:SerialDevice = device.device;
+		
+		if (!SerialConnectionAPI.open_serial_connection(cpp.RawPointer.addressOf(device), cpp.RawPointer.addressOf(connection)))
 			Sys.println('Failed to open connection.');
 	}
 
