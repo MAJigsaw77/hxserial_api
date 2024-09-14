@@ -136,7 +136,7 @@ class Connection
 	private function set_baud(value:BaudRate):BaudRate
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_baud(connection, value))
-			return value;
+			return baud = value;
 
 		return baud;
 	}
@@ -145,7 +145,7 @@ class Connection
 	private function set_char_size(value:CharSize):CharSize
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_char_size(connection, value))
-			return value;
+			return char_size = value;
 
 		return char_size;
 	}
@@ -154,7 +154,7 @@ class Connection
 	private function set_parity(value:Parity):Parity
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_parity(connection, value))
-			return value;
+			return parity = value;
 
 		return parity;
 	}
@@ -163,7 +163,7 @@ class Connection
 	private function set_stop_bits(value:StopBits):StopBits
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_stop_bits(connection, value))
-			return value;
+			return stop_bits = value;
 
 		return stop_bits;
 	}
@@ -173,7 +173,7 @@ class Connection
 	private function set_data_bits(value:DataBits):DataBits
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_data_bits(connection, value))
-			return value;
+			return data_bits = value;
 
 		return data_bits;
 	}
@@ -183,7 +183,7 @@ class Connection
 	private function set_flow_control(value:FlowControl):FlowControl
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_flow_control(connection, value))
-			return value;
+			return flow_control = value;
 
 		return flow_control;
 	}
@@ -192,7 +192,7 @@ class Connection
 	private function set_timeout(value:Timeout):Timeout
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_timeout(connection, value))
-			return value;
+			return timeout = value;
 
 		return timeout;
 	}
