@@ -272,7 +272,7 @@ int has_available_data_serial_connection(SerialConnection *connection)
 	return bytes_available;
 }
 
-int write_bytes_serial_connection(SerialConnection *connection, uint8_t *data, size_t size)
+int write_bytes_serial_connection(SerialConnection *connection, const uint8_t *data, size_t size)
 {
 	return write(connection->fd, data, size);
 }

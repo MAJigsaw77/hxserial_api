@@ -270,7 +270,7 @@ int has_available_data_serial_connection(SerialConnection *connection)
 	return comstat.cbInQue;
 }
 
-int write_bytes_serial_connection(SerialConnection *connection, uint8_t *data, size_t size)
+int write_bytes_serial_connection(SerialConnection *connection, const uint8_t *data, size_t size)
 {
 	DWORD bytes_written = 0;
 
