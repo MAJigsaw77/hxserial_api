@@ -3,6 +3,7 @@ package hxserial_api;
 import hxserial_api.externs.SerialDeviceAPI;
 import hxserial_api.externs.Types;
 
+@:allow(hxserial_api.Serial)
 class Device
 {
 	public static function getDevices():Array<Device>
