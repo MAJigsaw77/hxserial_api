@@ -95,7 +95,7 @@ class Connection
 		connection = untyped __cpp__('nullptr');
 
 		final device:SerialDevice = device.device;
-		
+
 		if (!SerialConnectionAPI.open_serial_connection(cpp.RawPointer.addressOf(device), cpp.RawPointer.addressOf(connection)))
 			Sys.println('Failed to open connection.');
 	}
@@ -135,7 +135,7 @@ class Connection
 		return connection != null ? SerialConnectionAPI.write_string_serial_connection(connection, data) : -1;
 	}
 
-	public function read(size:Int):Int
+	public function read(size:Int):Bytes
 	{
 		final data:cpp.RawPointer<cpp.UInt8> = untyped __cpp__('new unsigned char[{0}]', size);
 
