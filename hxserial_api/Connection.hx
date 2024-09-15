@@ -289,6 +289,44 @@ class Connection
 		return Bytes.ofData(readedData);
 	}
 
+	public function readLine(includeNewline:Bool = false):String
+	{
+		var strbuffer = new StringBuf();
+		var c:Int;
+
+		// TODO: check if this ever returns -1
+		while ((c = readByte()) != -1)
+		{
+			if (c == '\n'.code)
+			{
+				if (includeNewline)
+					strbuffer.addChar(c);
+				break;
+			}
+
+			if (c == '\r'.code)
+			{
+				c = readByte();
+
+				if (c != '\n'.code || (c == '\n'.code && includeNewline))
+				{
+					strbuffer.addChar('\r'.code);
+					if (c != '\n'.code || includeNewline)
+						strbuffer.addChar(c);
+				}
+
+				if (c == -1 || c == '\n'.code)
+					break;
+
+				continue;
+			}
+
+			strbuffer.addChar(c);
+		}
+
+		return strbuffer.toString();
+	}
+
 	/**
 	 * Reads a single byte from the serial connection.
 	 *
