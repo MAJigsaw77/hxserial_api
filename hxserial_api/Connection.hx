@@ -281,16 +281,11 @@ class Connection
 		if (connection != null)
 			SerialConnectionAPI.read_serial_connection(connection, data, size);
 
-		final readedData:BytesData = cpp.Pointer.fromRaw(data).toUnmanagedArray(size);
-
-		final copyArray = [];
-		copyArray.resize(readedData.length);
-		for (i in 0...readedData.length)
-			copyArray[i] = readedData[i];
+		final readedData:BytesData = cpp.Pointer.fromRaw(data).toUnmanagedArray(size).copy();
 
 		untyped __cpp__('delete[] {0}', data);
 
-		return Bytes.ofData(copyArray);
+		return Bytes.ofData(readedData);
 	}
 
 	/**
