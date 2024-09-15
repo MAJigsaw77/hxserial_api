@@ -291,11 +291,11 @@ class Connection
 	/**
 	 * Reads a single byte from the serial connection.
 	 *
-	 * @return The read byte as an unsigned integer.
+	 * @return The read byte as an integer.
 	 */
-	public inline function readByte():Bytes
+	public inline function readByte():Int
 	{
-		return read(1);
+		return read(1).get(0);
 	}
 
 	/**
