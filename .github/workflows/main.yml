@@ -17,6 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-latest, macos-latest, ubuntu-latest]
+        sample: [albedo_pcb, basic]
     steps:
       - name: Checkout
         uses: actions/checkout@main
@@ -37,9 +38,9 @@ jobs:
 
       - name: Build Unix
         if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
-        run: cd samples/basic && haxe build-unix.hxml
+        run: cd samples/${{matrix.sample}} && haxe build-unix.hxml
 
       - name: Build Windows
         if: startsWith(matrix.os, 'windows')
-        run: cd samples/basic && haxe build-win.hxml
+        run: cd samples/${{matrix.sample}} && haxe build-win.hxml
   
