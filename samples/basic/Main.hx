@@ -1,8 +1,5 @@
 package;
 
-import hxserial_api.externs.SerialConnectionAPI;
-import hxserial_api.externs.SerialDeviceAPI;
-import hxserial_api.externs.Types;
 import hxserial_api.Connection;
 import hxserial_api.Device;
 
@@ -10,78 +7,40 @@ class Main
 {
 	public static function main():Void
 	{
-		final devices:cpp.RawPointer<SerialDevice> = untyped __cpp__('nullptr');
+		final devices:Array<Device> = Device.getDevices();
 
-		var count:cpp.SizeT = 0;
+		Sys.println('${devices.length} device(s) available');
 
-		if (SerialDeviceAPI.get_serial_devices(cpp.RawPointer.addressOf(devices), cpp.RawPointer.addressOf(count)))
+		for (device in devices)
 		{
-			for (i in 0...count)
-				Sys.println('Path: ${devices[i].path}, vID: ${devices[i].vID}, pID: ${devices[i].pID}.');
+			Sys.println('Path: ${device.path}, vID: ${device.vID}, pID: ${device.pID}.');
 
-			for (i in 0...count)
+			if (device.vID != 0 && device.pID != 0)
 			{
-				var device = new Device(devices[i]);
+				Sys.println("Connecting to device: " + device.path + ", vID: " + device.vID + ", pID: " + device.pID);
 
-				if (device.vID != 0 && device.pID != 0)
+				final serial:Connection = new Connection(device);
+
+				if (!serial.connected)
 				{
-					Sys.println("Connecting to device: " + device.path + ", vID: " + device.vID + ", pID: " + device.pID);
-
-					var serial = new Connection(device);
-					if (!serial.connected)
-					{
-						Sys.println('Failed to open connection.');
-						Sys.exit(1);
-					}
-					serial.baud = BAUD_115200;
-
-					Sys.println('Opened connection to device.');
-
-					while (true)
-					{
-						var bytesRead = serial.readByte();
-
-						if (bytesRead > 0)
-							Sys.print(String.fromCharCode(bytesRead));
-						// Sys.println(String.fromCharCode(data) + " " + data);
-					}
-
-					// final connection:cpp.RawPointer<SerialConnection> = untyped __cpp__('nullptr');
-
-					/*if (SerialConnectionAPI.open_serial_connection(cpp.RawPointer.addressOf(device), cpp.RawPointer.addressOf(connection)))
-						{
-							SerialConnectionAPI.set_serial_connection_baud(connection, 115200);
-							// SerialConnectionAPI.set_serial_connection_char_size(connection, 8);
-							// SerialConnectionAPI.set_serial_connection_parity(connection, 0);
-							// SerialConnectionAPI.set_serial_connection_stop_bits(connection, SerialConnectionAPI.STOP_BITS_1);
-							// SerialConnectionAPI.set_serial_connection_flow_control(connection, SerialConnectionAPI.FLOW_CONTROL_NONE);
-							Sys.println('Opened connection.');
-
-							
-
-							/*var data:cpp.UInt8 = 0;
-
-							while (true)
-							{
-								var bytesRead = SerialConnectionAPI.read_serial_connection(connection, cpp.RawPointer.addressOf(data), 1);
-
-								if (bytesRead > 0)
-									Sys.print(String.fromCharCode(data));
-								// Sys.println(String.fromCharCode(data) + " " + data);
-							}
-
-							SerialConnectionAPI.close_serial_connection(connection);
-
-							serial.setBaud(Serial.BAUD_115200);
-					}*/
-					// else
-					//	Sys.println('Failed to open connection.');
-					// }
+					Sys.println('Failed to open connection.');
+					Sys.exit(1);
 				}
+
+				serial.baud = BAUD_115200;
+
+				Sys.println('Opened connection to device.');
+
+				while (true)
+				{
+					final bytesRead:UInt = serial.readByte();
+
+					if (bytesRead > 0)
+						Sys.print(String.fromCharCode(bytesRead));
+				}
+
+				serial.close();
 			}
-			cpp.Stdlib.nativeFree(untyped devices);
 		}
-		else
-			Sys.println('No devices found.');
 	}
 }
