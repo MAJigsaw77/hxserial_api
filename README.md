@@ -4,6 +4,12 @@
 
 Haxe/hxcpp @:native integration for managing serial connections and devices.
 
+### Supported Platforms
+
+- **Windows**
+- **MacOS**
+- **Linux** (*untested*)
+
 ### Installation
 
 You can install it through `Haxelib`
