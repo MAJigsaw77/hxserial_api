@@ -320,7 +320,7 @@ class Connection
 		if (data == null || data.length <= 0)
 			return -1;
 
-		final bytesData:BytesData = data.getBytes();
+		final bytesData:BytesData = data.getData();
 
 		return connection != null ? SerialConnectionAPI.write_bytes_serial_connection(connection, cpp.Pointer.ofArray(bytesData).constRaw,
 			bytesData.length) : -1;
