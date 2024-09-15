@@ -84,18 +84,6 @@ extern class SerialConnectionAPI
 	@:native('set_serial_connection_stop_bits')
 	static function set_serial_connection_stop_bits(connection:cpp.RawPointer<SerialConnection>, stop_bits:Int):Bool;
 
-	#if windows
-	/**
-	 * Sets the data bits for the serial connection.
-	 *
-	 * @param connection A pointer to the `SerialConnection` object to configure.
-	 * @param data_bits The number of data bits (typically 5, 6, 7, or 8).
-	 * @return true if the data bits were successfully set, false otherwise.
-	 */
-	@:native('set_serial_connection_data_bits')
-	static function set_serial_connection_data_bits(connection:cpp.RawPointer<SerialConnection>, data_bits:Int):Bool;
-	#end
-
 	/**
 	 * Sets the flow control for the serial connection.
 	 *

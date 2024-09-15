@@ -42,14 +42,6 @@ enum abstract StopBits(Int) from Int to Int
 	var STOP_BITS_2 = 2;
 }
 
-enum abstract DataBits(Int) from Int to Int
-{
-	var DATA_BITS_5 = 5;
-	var DATA_BITS_6 = 6;
-	var DATA_BITS_7 = 7;
-	var DATA_BITS_8 = 8;
-}
-
 enum abstract FlowControl(Int) from Int to Int
 {
 	var NONE = 0;
@@ -72,9 +64,6 @@ class Connection
 	public var charSize(default, set):CharSize;
 	public var parity(default, set):Parity;
 	public var stopBits(default, set):StopBits;
-	#if windows
-	public var dataBits(default, set):DataBits;
-	#end
 	public var flowControl(default, set):FlowControl;
 	public var timeout(default, set):Timeout;
 
@@ -200,17 +189,6 @@ class Connection
 
 		return stopBits;
 	}
-
-	#if windows
-	@:noCompletion
-	private function set_dataBits(value:DataBits):DataBits
-	{
-		if (connection != null && SerialConnectionAPI.set_serial_connection_data_bits(connection, value))
-			return dataBits = value;
-
-		return dataBits;
-	}
-	#end
 
 	@:noCompletion
 	private function set_flowControl(value:FlowControl):FlowControl

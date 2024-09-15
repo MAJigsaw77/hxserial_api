@@ -35,9 +35,6 @@ extern class SerialConnection
 	var char_size:Int;
 	var parity:Int;
 	var stop_bits:Int;
-	#if windows
-	var data_bits:Int;
-	#end
 	var flow_control:Int;
 	var timeout:Int;
 }

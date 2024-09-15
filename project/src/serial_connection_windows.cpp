@@ -198,25 +198,6 @@ bool set_serial_connection_stop_bits(SerialConnection *connection, int stop_bits
 	return true;
 }
 
-bool set_serial_connection_data_bits(SerialConnection *connection, int data_bits)
-{
-	DCB dcb;
-
-	dcb.DCBlength = sizeof(dcb);
-
-	if (!GetCommState(connection->fd, &dcb))
-		return false;
-
-	dcb.ByteSize = data_bits;
-
-	if (!SetCommState(connection->fd, &dcb))
-		return false;
-
-	connection->data_bits = data_bits;
-
-	return true;
-}
-
 bool set_serial_connection_flow_control(SerialConnection *connection, int flow_control)
 {
 	if (!SetCommMask(connection->fd, flow_control))
