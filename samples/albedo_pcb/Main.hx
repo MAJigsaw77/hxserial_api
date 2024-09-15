@@ -1,4 +1,4 @@
-package main;
+package;
 
 import hxserial_api.Connection;
 import hxserial_api.Device;
