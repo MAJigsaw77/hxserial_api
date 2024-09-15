@@ -106,6 +106,30 @@ class Connection
 		SerialConnectionAPI.free_serial_connection(connection);
 	}
 
+	public function read(size:Int):Bytes
+	{
+		final data:cpp.RawPointer<cpp.UInt8> = untyped __cpp__('new unsigned char[{0}]', size);
+
+		if (connection != null)
+			SerialConnectionAPI.read_serial_connection(connection, data, size);
+
+		final readedData:BytesData = cpp.Pointer.fromRaw(data).toUnmanagedArray(size);
+
+		untyped __cpp__('delete[] {0}', data);
+
+		return Bytes.ofData(readedData);
+	}
+
+	public function readByte():UInt
+	{
+		final data:cpp.UInt8 = 0;
+
+		if (connection != null)
+			SerialConnectionAPI.read_byte_serial_connection(connection, cpp.RawPointer.addressOf(data));
+
+		return data;
+	}
+
 	public function hasAvailableData():Int
 	{
 		return connection != null ? SerialConnectionAPI.has_available_data_serial_connection(connection) : 0;
@@ -133,30 +157,6 @@ class Connection
 	public function writeString(data:String):Int
 	{
 		return connection != null ? SerialConnectionAPI.write_string_serial_connection(connection, data) : -1;
-	}
-
-	public function read(size:Int):Bytes
-	{
-		final data:cpp.RawPointer<cpp.UInt8> = untyped __cpp__('new unsigned char[{0}]', size);
-
-		if (connection != null)
-			SerialConnectionAPI.read_serial_connection(connection, data, size);
-
-		final readedData:BytesData = cpp.Pointer.fromRaw(data).toUnmanagedArray(size);
-
-		untyped __cpp__('delete[] {0}', data);
-
-		return Bytes.ofData(readedData);
-	}
-
-	public function readByte():Int
-	{
-		final data:cpp.UInt8 = 0;
-
-		if (connection != null)
-			SerialConnectionAPI.read_byte_serial_connection(connection, cpp.RawPointer.addressOf(data));
-
-		return data;
 	}
 
 	@:noCompletion
