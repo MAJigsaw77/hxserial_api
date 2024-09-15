@@ -289,10 +289,27 @@ class Connection
 		return Bytes.ofData(readedData);
 	}
 
+	/**
+	 * Reads a single byte from the serial connection.
+	 *
+	 * @return The read byte as an integer.
+	 */
+	public inline function readByte():Int
+	{
+		return read(1).get(0);
+	}
+
+	/**
+	 * Reads a line of text from the serial connection.
+	 *
+	 * @param includeNewline Whether to include the newline character in the result.
+	 * @return The read line as a string.
+	 */
 	public function readLine(includeNewline:Bool = false):String
 	{
-		var strbuffer = new StringBuf();
-		var c:Int;
+		final strbuffer:StringBuf = new StringBuf();
+
+		var c:Int = 0;
 
 		// TODO: check if this ever returns -1
 		while ((c = readByte()) != -1)
@@ -301,6 +318,7 @@ class Connection
 			{
 				if (includeNewline)
 					strbuffer.addChar(c);
+
 				break;
 			}
 
@@ -311,6 +329,7 @@ class Connection
 				if (c != '\n'.code || (c == '\n'.code && includeNewline))
 				{
 					strbuffer.addChar('\r'.code);
+
 					if (c != '\n'.code || includeNewline)
 						strbuffer.addChar(c);
 				}
@@ -325,16 +344,6 @@ class Connection
 		}
 
 		return strbuffer.toString();
-	}
-
-	/**
-	 * Reads a single byte from the serial connection.
-	 *
-	 * @return The read byte as an integer.
-	 */
-	public inline function readByte():Int
-	{
-		return read(1).get(0);
 	}
 
 	/**
@@ -353,7 +362,7 @@ class Connection
 	 * @param data The data to write.
 	 * @return The number of bytes written.
 	 */
-	public function writeBytes(data:Bytes):Int
+	public function write(data:Bytes):Int
 	{
 		if (data == null || data.length <= 0)
 			return -1;
@@ -374,7 +383,7 @@ class Connection
 	{
 		final bytes:Bytes = Bytes.alloc(1);
 		bytes.set(0, data);
-		return writeBytes(bytes);
+		return write(bytes);
 	}
 
 	/**
