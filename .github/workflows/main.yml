@@ -34,9 +34,9 @@ jobs:
       - name: Create virtual serial devices
         if: startsWith(matrix.os, 'ubuntu')
         run: |
-          sudo socat PTY,link=/dev/ttyS0,raw,echo=0 PTY,link=/dev/ttyS1,raw,echo=0 &
+          sudo socat PTY,link=/dev/pts/ttyS0,raw,echo=0 PTY,link=/dev/pts/ttyS1,raw,echo=0 &
           sleep 2
-          ls -l /dev/ttyS
+          ls -l /dev/pts/
 
       - name: Install Dependencies
         run: |
