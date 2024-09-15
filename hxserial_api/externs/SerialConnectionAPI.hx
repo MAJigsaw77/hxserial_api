@@ -116,49 +116,6 @@ extern class SerialConnectionAPI
 	static function read_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.RawPointer<cpp.UInt8>, size:cpp.SizeT):Int;
 
 	/**
-	 * Reads a single byte from the serial connection.
-	 *
-	 * @param connection A pointer to the `SerialConnection` object to read from.
-	 * @param data A pointer to the buffer where the read byte will be stored.
-	 * @return The number of bytes read (should be 1) or -1 if an error occurred.
-	 */
-	@:native('read_byte_serial_connection')
-	static function read_byte_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.RawPointer<cpp.UInt8>):Int;
-
-	/**
-	 * Reads data from the serial connection until a specific byte is encountered.
-	 *
-	 * @param connection A pointer to the `SerialConnection` object to read from.
-	 * @param data A pointer to the buffer where the read data will be stored.
-	 * @param until The byte value to read until (e.g., newline character).
-	 * @return The number of bytes read, or -1 if an error occurred.
-	 */
-	@:native('read_until_byte_serial_connection')
-	static function read_until_byte_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.RawPointer<cpp.UInt8>, until:cpp.UInt8):Int;
-
-	/**
-	 * Reads data from the serial connection until a specific string is encountered.
-	 *
-	 * @param connection A pointer to the `SerialConnection` object to read from.
-	 * @param data A pointer to the buffer where the read data will be stored.
-	 * @param until The string value to read until (e.g., a specific terminator).
-	 * @return The number of bytes read, or -1 if an error occurred.
-	 */
-	@:native('read_until_string_serial_connection')
-	static function read_until_string_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.RawPointer<cpp.UInt8>,
-		until:cpp.ConstCharStar):Int;
-
-	/**
-	 * Reads data from the serial connection until a newline character is encountered.
-	 *
-	 * @param connection A pointer to the `SerialConnection` object to read from.
-	 * @param data A pointer to the buffer where the read data will be stored.
-	 * @return The number of bytes read, or -1 if an error occurred.
-	 */
-	@:native('read_until_line_serial_connection')
-	static function read_until_line_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.RawPointer<cpp.UInt8>):Int;
-
-	/**
 	 * Checks if there is data available to read from the serial connection.
 	 *
 	 * @param connection A pointer to the `SerialConnection` object to check.
@@ -177,24 +134,4 @@ extern class SerialConnectionAPI
 	 */
 	@:native('write_bytes_serial_connection')
 	static function write_bytes_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.RawConstPointer<cpp.UInt8>, size:cpp.SizeT):Int;
-
-	/**
-	 * Writes a single byte to the serial connection.
-	 *
-	 * @param connection A pointer to the `SerialConnection` object to write to.
-	 * @param data The byte to write.
-	 * @return The number of bytes written (should be 1) or -1 if an error occurred.
-	 */
-	@:native('write_byte_serial_connection')
-	static function write_byte_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.UInt8):Int;
-
-	/**
-	 * Writes a string to the serial connection.
-	 *
-	 * @param connection A pointer to the `SerialConnection` object to write to.
-	 * @param data A pointer to the null-terminated string to write.
-	 * @return The number of bytes written, or -1 if an error occurred.
-	 */
-	@:native('write_string_serial_connection')
-	static function write_string_serial_connection(connection:cpp.RawPointer<SerialConnection>, data:cpp.ConstCharStar):Int;
 }
