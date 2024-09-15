@@ -1,5 +1,6 @@
 package;
 
+import haxe.io.Bytes;
 import hxserial_api.Connection;
 import hxserial_api.Device;
 
@@ -33,10 +34,10 @@ class Main
 
 				while (true)
 				{
-					final bytesRead:UInt = serial.readByte();
+					final bytesRead:Bytes = serial.readByte();
 
 					if (bytesRead > 0)
-						Sys.print(String.fromCharCode(bytesRead));
+						Sys.print(String.fromCharCode(bytesRead.get(0)));
 				}
 
 				serial.close();
