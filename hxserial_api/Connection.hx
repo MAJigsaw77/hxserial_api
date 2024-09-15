@@ -394,7 +394,7 @@ class Connection
 	 */
 	public inline function writeString(data:String):Int
 	{
-		return writeBytes(Bytes.ofString(data));
+		return write(Bytes.ofString(data));
 	}
 
 	@:noCompletion
