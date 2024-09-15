@@ -281,6 +281,7 @@ class Connection
 		if (connection != null)
 			SerialConnectionAPI.read_serial_connection(connection, data, size);
 
+		// The .copy() is done so it doesn't break delete[].
 		final readedData:BytesData = cpp.Pointer.fromRaw(data).toUnmanagedArray(size).copy();
 
 		untyped __cpp__('delete[] {0}', data);
