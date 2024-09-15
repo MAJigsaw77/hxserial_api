@@ -235,11 +235,6 @@ int read_serial_connection(SerialConnection *connection, uint8_t *data, size_t s
 	return bytes_read;
 }
 
-int read_byte_serial_connection(SerialConnection *connection, uint8_t *data)
-{
-	return read_serial_connection(connection, data, 1);
-}
-
 int has_available_data_serial_connection(SerialConnection *connection)
 {
 	COMSTAT comstat;
@@ -259,14 +254,4 @@ int write_bytes_serial_connection(SerialConnection *connection, const uint8_t *d
 		return -1;
 
 	return bytes_written;
-}
-
-int write_byte_serial_connection(SerialConnection *connection, uint8_t data)
-{
-	return write_bytes_serial_connection(connection, &data, 1);
-}
-
-int write_string_serial_connection(SerialConnection *connection, const char *data)
-{
-	return write_bytes_serial_connection(connection, (uint8_t *)data, strlen(data));
 }
