@@ -365,7 +365,7 @@ class Connection
 	private function set_baud(value:BaudRate):BaudRate
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_baud(connection, value))
-			return baud = value;
+			return value;
 
 		return baud;
 	}
@@ -389,7 +389,7 @@ class Connection
 	}
 
 	@:noCompletion
-	private function get_charSize():BaudRate
+	private function get_charSize():CharSize
 	{
 		if (connection != null)
 			return connection[0].char_size;
@@ -407,7 +407,7 @@ class Connection
 	}
 
 	@:noCompletion
-	private function get_parity():BaudRate
+	private function get_parity():Parity
 	{
 		if (connection != null)
 			return connection[0].parity;
@@ -425,7 +425,7 @@ class Connection
 	}
 
 	@:noCompletion
-	private function get_stopBits():BaudRate
+	private function get_stopBits():StopBits
 	{
 		if (connection != null)
 			return connection[0].stop_bits;
@@ -437,13 +437,13 @@ class Connection
 	private function set_flowControl(value:FlowControl):FlowControl
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_flow_control(connection, value))
-			return flowControl = value;
+			return value;
 
 		return flowControl;
 	}
 
 	@:noCompletion
-	private function get_flowControl():BaudRate
+	private function get_flowControl():FlowControl
 	{
 		if (connection != null)
 			return connection[0].flow_control;
@@ -461,7 +461,7 @@ class Connection
 	}
 
 	@:noCompletion
-	private function get_timeout():BaudRate
+	private function get_timeout():Timeout
 	{
 		if (connection != null)
 			return connection[0].timeout;
