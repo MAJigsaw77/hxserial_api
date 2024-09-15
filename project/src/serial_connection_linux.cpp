@@ -260,11 +260,6 @@ int read_serial_connection(SerialConnection *connection, uint8_t *data, size_t s
 	return read(connection->fd, data, size);
 }
 
-int read_byte_serial_connection(SerialConnection *connection, uint8_t *data)
-{
-	return read(connection->fd, data, 1);
-}
-
 int has_available_data_serial_connection(SerialConnection *connection)
 {
 	int bytes_available = 0;
@@ -275,14 +270,4 @@ int has_available_data_serial_connection(SerialConnection *connection)
 int write_bytes_serial_connection(SerialConnection *connection, const uint8_t *data, size_t size)
 {
 	return write(connection->fd, data, size);
-}
-
-int write_byte_serial_connection(SerialConnection *connection, uint8_t data)
-{
-	return write(connection->fd, &data, 1);
-}
-
-int write_string_serial_connection(SerialConnection *connection, const char *data)
-{
-	return write(connection->fd, data, strlen(data));
 }
