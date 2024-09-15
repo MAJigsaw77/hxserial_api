@@ -293,14 +293,9 @@ class Connection
 	 *
 	 * @return The read byte as an unsigned integer.
 	 */
-	public function readByte():UInt
+	public inline function readByte():Bytes
 	{
-		final data:cpp.UInt8 = 0;
-
-		if (connection != null)
-			SerialConnectionAPI.read_byte_serial_connection(connection, cpp.RawPointer.addressOf(data));
-
-		return data;
+		return read(1);
 	}
 
 	/**
@@ -339,9 +334,11 @@ class Connection
 	 * @param data The byte to write.
 	 * @return The result of the write operation.
 	 */
-	public function writeByte(data:UInt):Int
+	public inline function writeByte(data:Int):Int
 	{
-		return connection != null ? SerialConnectionAPI.write_byte_serial_connection(connection, data) : -1;
+		final bytes:Bytes = Bytes.alloc(1);
+		bytes.set(0, data);
+		return writeBytes(bytes);
 	}
 
 	/**
@@ -350,9 +347,9 @@ class Connection
 	 * @param data The string to write.
 	 * @return The result of the write operation.
 	 */
-	public function writeString(data:String):Int
+	public inline function writeString(data:String):Int
 	{
-		return connection != null ? SerialConnectionAPI.write_string_serial_connection(connection, data) : -1;
+		return writeBytes(Bytes.ofString(data));
 	}
 
 	@:noCompletion
