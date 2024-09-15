@@ -60,12 +60,12 @@ enum abstract Timeout(Int) from Int to Int
 class Connection
 {
 	public var connected(get, never):Bool;
-	public var baud(default, set):BaudRate;
-	public var charSize(default, set):CharSize;
-	public var parity(default, set):Parity;
-	public var stopBits(default, set):StopBits;
-	public var flowControl(default, set):FlowControl;
-	public var timeout(default, set):Timeout;
+	public var baud(get, set):BaudRate;
+	public var charSize(get, set):CharSize;
+	public var parity(get, set):Parity;
+	public var stopBits(get, set):StopBits;
+	public var flowControl(get, set):FlowControl;
+	public var timeout(get, set):Timeout;
 
 	@:noCompletion
 	private var connection:cpp.RawPointer<SerialConnection>;
@@ -164,30 +164,66 @@ class Connection
 	}
 
 	@:noCompletion
+	private function get_baud():BaudRate
+	{
+		if (connection != null)
+			return connection[0].baud;
+
+		return 0;
+	}
+
+	@:noCompletion
 	private function set_charSize(value:CharSize):CharSize
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_char_size(connection, value))
-			return charSize = value;
+			return value;
 
 		return charSize;
+	}
+
+	@:noCompletion
+	private function get_charSize():BaudRate
+	{
+		if (connection != null)
+			return connection[0].char_size;
+
+		return 0;
 	}
 
 	@:noCompletion
 	private function set_parity(value:Parity):Parity
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_parity(connection, value))
-			return parity = value;
+			return value;
 
 		return parity;
+	}
+
+	@:noCompletion
+	private function get_parity():BaudRate
+	{
+		if (connection != null)
+			return connection[0].parity;
+
+		return 0;
 	}
 
 	@:noCompletion
 	private function set_stopBits(value:StopBits):StopBits
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_stop_bits(connection, value))
-			return stopBits = value;
+			return value;
 
 		return stopBits;
+	}
+
+	@:noCompletion
+	private function get_stopBits():BaudRate
+	{
+		if (connection != null)
+			return connection[0].stop_bits;
+
+		return 0;
 	}
 
 	@:noCompletion
@@ -200,11 +236,29 @@ class Connection
 	}
 
 	@:noCompletion
+	private function get_flowControl():BaudRate
+	{
+		if (connection != null)
+			return connection[0].flow_control;
+
+		return 0;
+	}
+
+	@:noCompletion
 	private function set_timeout(value:Timeout):Timeout
 	{
 		if (connection != null && SerialConnectionAPI.set_serial_connection_timeout(connection, value))
-			return timeout = value;
+			return value;
 
 		return timeout;
+	}
+
+	@:noCompletion
+	private function get_timeout():BaudRate
+	{
+		if (connection != null)
+			return connection[0].timeout;
+
+		return 0;
 	}
 }
