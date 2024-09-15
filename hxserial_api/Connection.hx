@@ -283,9 +283,14 @@ class Connection
 
 		final readedData:BytesData = cpp.Pointer.fromRaw(data).toUnmanagedArray(size);
 
+		final copyArray = [];
+		copyArray.resize(readedData.length);
+		for (i in 0...readedData.length)
+			copyArray[i] = readedData[i];
+
 		untyped __cpp__('delete[] {0}', data);
 
-		return Bytes.ofData(readedData);
+		return Bytes.ofData(copyArray);
 	}
 
 	/**
