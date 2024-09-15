@@ -34,10 +34,10 @@ class Main
 
 				while (true)
 				{
-					final bytesRead:Bytes = serial.readByte();
+					final bytesRead:Int = serial.readByte();
 
 					if (bytesRead > 0)
-						Sys.print(String.fromCharCode(bytesRead.get(0)));
+						Sys.print(String.fromCharCode(bytesRead));
 				}
 
 				serial.close();
