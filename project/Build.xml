@@ -13,8 +13,6 @@
 	<files id="serial_api">
 		<compilerflag value="-I${haxelib:hxserial_api}/project/include" />
 
-		<file name="${haxelib:hxserial_api}/project/src/serial_connection_common.cpp" />
-
 		<section if="windows">
 			<file name="${haxelib:hxserial_api}/project/src/serial_connection_windows.cpp" />
 			<file name="${haxelib:hxserial_api}/project/src/serial_device_windows.cpp" />
