@@ -27,18 +27,9 @@ jobs:
         with:
           haxe-version: latest
 
-      - name: Install libudev and socat
+      - name: Install libudev
         if: startsWith(matrix.os, 'ubuntu')
-        run: sudo apt-get update && sudo apt-get install -y libudev-dev socat
-
-      - name: Create virtual serial devices
-        if: startsWith(matrix.os, 'ubuntu')
-        run: |
-          PTY0=$(socat -d -d PTY,raw,echo=0 PTY,raw,echo=0 2>&1 | grep -o '/dev/pts/[0-9]*' | head -n 1)
-          PTY1=$(socat -d -d PTY,raw,echo=0 PTY,raw,echo=0 2>&1 | grep -o '/dev/pts/[0-9]*' | head -n 1)
-          echo "PTY0: $PTY0"
-          echo "PTY1: $PTY1"
-          socat -d -d $PTY0 $PTY1 &
+        run: sudo apt-get update && sudo apt-get install -y libudev-dev
 
       - name: Install Dependencies
         run: |
