@@ -155,8 +155,27 @@ bool set_serial_connection_char_size(SerialConnection *connection, int char_size
 		return false;
 	}
 
+	int realCharSize = CS8;
+	switch (char_size)
+	{
+	case 5:
+		realCharSize = CS5;
+		break;
+	case 6:
+		realCharSize = CS6;
+		break;
+	case 7:
+		realCharSize = CS7;
+		break;
+	case 8:
+		realCharSize = CS8;
+		break;
+	default:
+		NSLog(@"Unsupported character size: %d, defaulting to 8", char_size);
+	}
+
 	tty.c_cflag &= ~CSIZE;
-	tty.c_cflag |= char_size;
+	tty.c_cflag |= realCharSize;
 
 	if (tcsetattr(connection->fd, TCSANOW, &tty) != 0)
 	{

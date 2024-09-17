@@ -85,6 +85,13 @@ enum abstract CharSize(Int) from Int to Int
 	 * 8 bits per character
 	 */
 	var CHAR_SIZE_8 = 8;
+
+	#if windows
+	/**
+	 * 16 bits per character
+	 */
+	var CHAR_SIZE_16 = 16;
+	#end
 }
 
 /**
