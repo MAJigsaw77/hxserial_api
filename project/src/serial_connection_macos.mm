@@ -142,6 +142,8 @@ bool set_serial_connection_baud(SerialConnection *connection, int baud)
 		return false;
 	}
 
+	connection->baud = baud;
+
 	return true;
 }
 
@@ -183,6 +185,8 @@ bool set_serial_connection_char_size(SerialConnection *connection, int char_size
 		return false;
 	}
 
+	connection->char_size = char_size;
+
 	return true;
 }
 
@@ -206,6 +210,8 @@ bool set_serial_connection_parity(SerialConnection *connection, int parity)
 		NSLog(@"Error from tcsetattr: %s", strerror(errno));
 		return false;
 	}
+
+	connection->parity = parity;
 
 	return true;
 }
@@ -236,6 +242,8 @@ bool set_serial_connection_stop_bits(SerialConnection *connection, int stop_bits
 		return false;
 	}
 
+	connection->stop_bits = stop_bits;
+
 	return true;
 }
 
@@ -260,6 +268,8 @@ bool set_serial_connection_flow_control(SerialConnection *connection, int flow_c
 		return false;
 	}
 
+	connection->flow_control = flow_control;
+
 	return true;
 }
 
@@ -274,6 +284,8 @@ bool set_serial_connection_timeout(SerialConnection *connection, int timeout)
 		NSLog(@"Error from setsockopt: %s", strerror(errno));
 		return false;
 	}
+
+	connection->timeout = timeout;
 
 	return true;
 }
