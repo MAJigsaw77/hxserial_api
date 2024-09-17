@@ -106,10 +106,10 @@ bool open_serial_connection(SerialDevice *device, SerialConnection **connection,
 
 	conn->fd = handle;
 	conn->path = device->path;
-	conn->baud = realBaud;
+	conn->baud = baud;
 	conn->char_size = 8;
 	conn->parity = NOPARITY;
-	conn->stop_bits = ONESTOPBIT;
+	conn->stop_bits = 1;
 	conn->flow_control = 0;
 	conn->timeout = 0;
 
@@ -197,7 +197,23 @@ bool set_serial_connection_stop_bits(SerialConnection *connection, int stop_bits
 	if (!GetCommState(connection->fd, &dcb))
 		return false;
 
-	dcb.StopBits = stop_bits;
+	int realStopBits = ONESTOPBIT;
+
+	switch (stop_bits)
+	{
+	case 1:
+		realStopBits = ONESTOPBIT;
+		break;
+	case 2:
+		realStopBits = TWOSTOPBITS;
+		break;
+	default:
+		// sadly we can't support 1.5 bits since linux and mac
+		std::cerr << "Unsupported number of stop bits: " << stop_bits << ", defaulting to 1" << std::endl;
+		break;
+	}
+
+	dcb.StopBits = realStopBits;
 
 	if (!SetCommState(connection->fd, &dcb))
 		return false;
@@ -209,7 +225,46 @@ bool set_serial_connection_stop_bits(SerialConnection *connection, int stop_bits
 
 bool set_serial_connection_flow_control(SerialConnection *connection, int flow_control)
 {
-	if (!SetCommMask(connection->fd, flow_control))
+	DCB dcb;
+
+	dcb.DCBlength = sizeof(dcb);
+
+	if (!GetCommState(connection->fd, &dcb))
+		return false;
+
+	switch (flow_control)
+	{
+	case 0: // NONE
+		dcb.fOutxCtsFlow = false;
+		dcb.fRtsControl = RTS_CONTROL_DISABLE;
+		dcb.fOutxDsrFlow = false;
+		dcb.fDtrControl = DTR_CONTROL_DISABLE;
+		break;
+
+	case 1: // RTS/CTS
+		dcb.fOutxCtsFlow = true;
+		dcb.fRtsControl = RTS_CONTROL_HANDSHAKE;
+		dcb.fOutxDsrFlow = false;
+		dcb.fDtrControl = DTR_CONTROL_DISABLE;
+		break;
+
+	case 2: // DSR/DTR
+		dcb.fOutxCtsFlow = false;
+		dcb.fRtsControl = RTS_CONTROL_DISABLE;
+		dcb.fOutxDsrFlow = true;
+		dcb.fDtrControl = DTR_CONTROL_HANDSHAKE;
+		break;
+
+	default:
+		std::cerr << "Invalid flow control setting: " << flow_control << ", defaulting to NONE" << std::endl;
+		dcb.fOutxCtsFlow = false;
+		dcb.fRtsControl = RTS_CONTROL_DISABLE;
+		dcb.fOutxDsrFlow = false;
+		dcb.fDtrControl = DTR_CONTROL_DISABLE;
+		break;
+	}
+
+	if (!SetCommState(connection->fd, &dcb))
 		return false;
 
 	connection->flow_control = flow_control;
@@ -217,6 +272,7 @@ bool set_serial_connection_flow_control(SerialConnection *connection, int flow_c
 	return true;
 }
 
+// todo: fix this
 bool set_serial_connection_timeout(SerialConnection *connection, int timeout)
 {
 	COMMTIMEOUTS timeouts;

@@ -73,6 +73,11 @@ static bool configureSerialPort(SerialConnection *connection, int fd, int baud)
 	tty.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
 	tty.c_oflag &= ~OPOST;
 
+	connection->parity = 0;
+	connection->stop_bits = 1;
+	connection->char_size = 8;
+	connection->flow_control = 0;
+
 	// TODO: set connection fields
 
 	if (tcsetattr(fd, TCSANOW, &tty) != 0)
@@ -174,6 +179,7 @@ bool set_serial_connection_char_size(SerialConnection *connection, int char_size
 		break;
 	default:
 		NSLog(@"Unsupported character size: %d, defaulting to 8", char_size);
+		break;
 	}
 
 	tty.c_cflag &= ~CSIZE;
