@@ -56,7 +56,7 @@ enum abstract BaudRate(Int) from Int to Int
 	var BAUD_115200 = 115200;
 
 	/**
-	 * 230400 baud rate
+	 * 230400 baud rate, only supported on linux and macos
 	 */
 	var BAUD_230400 = 230400;
 }
@@ -295,19 +295,20 @@ class Connection
 	 * @return The read byte as an integer.
 	 */
 	public inline function readByte():Int
-	{
 		return read(1).get(0);
-	}
 
 	/**
 	 * Reads a line of text from the serial connection.
+	 *
+	 * Precaution, the result doesn't contain the newline character.
+	 * if you want to include it, then call readLine(true).
 	 *
 	 * @param includeNewline Whether to include the newline character in the result.
 	 * @return The read line as a string.
 	 */
 	public function readLine(includeNewline:Bool = false):String
 	{
-		final strbuffer:StringBuf = new StringBuf();
+		final buffer:StringBuf = new StringBuf();
 
 		var c:Int = 0;
 
@@ -317,7 +318,7 @@ class Connection
 			if (c == '\n'.code)
 			{
 				if (includeNewline)
-					strbuffer.addChar(c);
+					buffer.addChar(c);
 
 				break;
 			}
@@ -328,10 +329,10 @@ class Connection
 
 				if (c != '\n'.code || (c == '\n'.code && includeNewline))
 				{
-					strbuffer.addChar('\r'.code);
+					buffer.addChar('\r'.code);
 
 					if (c != '\n'.code || includeNewline)
-						strbuffer.addChar(c);
+						buffer.addChar(c);
 				}
 
 				if (c == -1 || c == '\n'.code)
@@ -340,10 +341,88 @@ class Connection
 				continue;
 			}
 
-			strbuffer.addChar(c);
+			buffer.addChar(c);
 		}
 
-		return strbuffer.toString();
+		return buffer.toString();
+	}
+
+	/**
+	 * Reads a line of text from the serial connection until a specific byte is found.
+	 *
+	 * Precaution, the result doesn't contain the byte.
+	 * if you want to include it, then call readUntilByte(byte, true).
+	 *
+	 * @param byte The byte to stop reading at.
+	 * @return The read line as a string.
+	 */
+	public function readUntilByte(byte:Int, includeLast:Bool = false):String
+	{
+		final buffer:StringBuf = new StringBuf();
+
+		var c:Int = 0;
+
+		if (includeLast)
+		{
+			while ((c = readByte()) != -1)
+			{
+				if (c == byte)
+					break;
+				buffer.addChar(c);
+			}
+		}
+		else
+		{
+			while ((c = readByte()) != -1)
+			{
+				buffer.addChar(c);
+				if (c == byte)
+					break;
+			}
+		}
+
+		// not sure if we should use substr here, since it would be slower
+		return buffer.toString();
+	}
+
+	/**
+	 * Reads a line of text from the serial connection until a specific string is found.
+	 *
+	 * Precaution, the result doesn't contain the string that was searched for.
+	 * if you want to include it, then call readUntilString(str, true).
+	 *
+	 * @param str The string to stop reading at.
+	 * @return The read line as a string.
+	 */
+	public function readUntilString(str:String, includeLast:Bool = false):String
+	{
+		if (str.length == 1) // use readUntilByte if possible, since it's faster
+			return readUntilByte(str.charCodeAt(0));
+
+		final buffer:StringBuf = new StringBuf();
+		final matchLength = str.length;
+
+		var c:Int = 0;
+		var matchIndex = 0;
+
+		while ((c = readByte()) != -1)
+		{
+			buffer.addChar(c);
+
+			if (c == str.charCodeAt(matchIndex))
+			{
+				matchIndex++;
+				if (matchIndex == matchLength)
+					break;
+			}
+			else
+				matchIndex = 0;
+		}
+
+		var res = buffer.toString();
+		if (!includeLast)
+			res = res.substr(0, res.length - matchLength);
+		return res;
 	}
 
 	/**
@@ -352,9 +431,7 @@ class Connection
 	 * @return The number of available bytes.
 	 */
 	public function hasAvailableData():Int
-	{
 		return connection != null ? SerialConnectionAPI.has_available_data_serial_connection(connection) : 0;
-	}
 
 	/**
 	 * Writes a `Bytes` object to the serial connection.
@@ -393,15 +470,11 @@ class Connection
 	 * @return The result of the write operation.
 	 */
 	public inline function writeString(data:String):Int
-	{
 		return write(Bytes.ofString(data));
-	}
 
 	@:noCompletion
 	private function get_connected():Bool
-	{
 		return connection != null;
-	}
 
 	@:noCompletion
 	private function set_baud(value:BaudRate):BaudRate

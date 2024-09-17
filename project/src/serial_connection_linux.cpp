@@ -9,7 +9,8 @@
 #include <termios.h>
 #include <unistd.h>
 
-static int get_baud_rate(int baud) {
+static int get_baud_rate(int baud)
+{
 	int baud_enum = B9600;
 
 	switch (baud)

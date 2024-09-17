@@ -9,7 +9,8 @@
 #include <windows.h>
 #include <iostream>
 
-static int get_baud_rate(int baud) {
+static int get_baud_rate(int baud)
+{
 	int realBaud = baud;
 
 	switch (baud)
