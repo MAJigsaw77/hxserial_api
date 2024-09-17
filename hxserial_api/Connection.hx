@@ -235,10 +235,10 @@ class Connection
 	 *
 	 * @param device The serial device to connect to (optional).
 	 */
-	public function new(?device:Device):Void
+	public function new(?device:Device, baud:BaudRate = BAUD_9600):Void
 	{
 		if (device != null)
-			open(device);
+			open(device, baud);
 	}
 
 	/**
@@ -246,7 +246,7 @@ class Connection
 	 *
 	 * @param device The serial device to connect to.
 	 */
-	public function open(device:Device):Void
+	public function open(device:Device, baud:BaudRate = BAUD_9600):Void
 	{
 		if (connection != null)
 			close();
@@ -255,7 +255,7 @@ class Connection
 
 		final device:SerialDevice = device.device;
 
-		if (!SerialConnectionAPI.open_serial_connection(cpp.RawPointer.addressOf(device), cpp.RawPointer.addressOf(connection)))
+		if (!SerialConnectionAPI.open_serial_connection(cpp.RawPointer.addressOf(device), cpp.RawPointer.addressOf(connection), baud))
 			Sys.println('Failed to open connection.');
 	}
 

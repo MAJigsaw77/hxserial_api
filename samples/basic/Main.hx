@@ -20,15 +20,13 @@ class Main
 			{
 				Sys.println("Connecting to device: " + device.path + ", vID: " + device.vID + ", pID: " + device.pID);
 
-				final serial:Connection = new Connection(device);
+				final serial:Connection = new Connection(device, BAUD_115200);
 
 				if (!serial.connected)
 				{
 					Sys.println('Failed to open connection.');
 					Sys.exit(1);
 				}
-
-				serial.baud = BAUD_115200;
 
 				Sys.println('Opened connection to device.');
 

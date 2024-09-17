@@ -32,7 +32,7 @@ typedef struct SerialConnection
 #endif
 } SerialConnection;
 
-bool open_serial_connection(SerialDevice *device, SerialConnection **connection);
+bool open_serial_connection(SerialDevice *device, SerialConnection **connection, int baud);
 void close_serial_connection(SerialConnection *connection);
 void free_serial_connection(SerialConnection *connection);
 

@@ -9,7 +9,43 @@
 #include <windows.h>
 #include <iostream>
 
-bool open_serial_connection(SerialDevice *device, SerialConnection **connection)
+static int get_baud_rate(int baud) {
+	int realBaud = baud;
+
+	switch (baud)
+	{
+	case 1200:
+		realBaud = CBR_1200;
+		break;
+	case 2400:
+		realBaud = CBR_2400;
+		break;
+	case 4800:
+		realBaud = CBR_4800;
+		break;
+	case 9600:
+		realBaud = CBR_9600;
+		break;
+	case 19200:
+		realBaud = CBR_19200;
+		break;
+	case 38400:
+		realBaud = CBR_38400;
+		break;
+	case 57600:
+		realBaud = CBR_57600;
+		break;
+	case 115200:
+		realBaud = CBR_115200;
+		break;
+	default:
+		std::cerr << "Invalid baud rate: " << baud << ", defaulting to 9600" << std::endl;
+		return CBR_9600;
+	}
+	return realBaud;
+}
+
+bool open_serial_connection(SerialDevice *device, SerialConnection **connection, int baud)
 {
 	HANDLE handle = CreateFileA(device->path, GENERIC_READ | GENERIC_WRITE, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -29,7 +65,10 @@ bool open_serial_connection(SerialDevice *device, SerialConnection **connection)
 		return false;
 	}
 
-	dcb.BaudRate = CBR_9600;
+	int realBaud = get_baud_rate(baud);
+
+	dcb.BaudRate = realBaud;
+
 	dcb.ByteSize = 8;
 	dcb.Parity = NOPARITY;
 	dcb.StopBits = ONESTOPBIT;
@@ -66,7 +105,7 @@ bool open_serial_connection(SerialDevice *device, SerialConnection **connection)
 
 	conn->fd = handle;
 	conn->path = device->path;
-	conn->baud = 9600;
+	conn->baud = realBaud;
 	conn->char_size = 8;
 	conn->parity = NOPARITY;
 	conn->stop_bits = ONESTOPBIT;
@@ -98,38 +137,7 @@ bool set_serial_connection_baud(SerialConnection *connection, int baud)
 	if (!GetCommState(connection->fd, &dcb))
 		return false;
 
-	int realBaud = baud;
-
-	switch (baud)
-	{
-	case 1200:
-		realBaud = CBR_1200;
-		break;
-	case 2400:
-		realBaud = CBR_2400;
-		break;
-	case 4800:
-		realBaud = CBR_4800;
-		break;
-	case 9600:
-		realBaud = CBR_9600;
-		break;
-	case 19200:
-		realBaud = CBR_19200;
-		break;
-	case 38400:
-		realBaud = CBR_38400;
-		break;
-	case 57600:
-		realBaud = CBR_57600;
-		break;
-	case 115200:
-		realBaud = CBR_115200;
-		break;
-	default:
-		std::cerr << "Invalid baud rate: " << baud << std::endl;
-		return false;
-	}
+	int realBaud = get_baud_rate(baud);
 
 	dcb.BaudRate = realBaud;
 

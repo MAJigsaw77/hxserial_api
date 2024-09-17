@@ -8,7 +8,47 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
 
-static bool configureSerialPort(SerialConnection *connection, int fd)
+static int get_baud_rate(int baud) {
+	int baud_enum = B9600;
+
+	switch (baud)
+	{
+	case 1200:
+		baud_enum = B1200;
+		break;
+	case 2400:
+		baud_enum = B2400;
+		break;
+	case 4800:
+		baud_enum = B4800;
+		break;
+	case 9600:
+		baud_enum = B9600;
+		break;
+	case 19200:
+		baud_enum = B19200;
+		break;
+	case 38400:
+		baud_enum = B38400;
+		break;
+	case 57600:
+		baud_enum = B57600;
+		break;
+	case 115200:
+		baud_enum = B115200;
+		break;
+	case 230400:
+		baud_enum = B230400;
+		break;
+	default:
+		NSLog(@"Unsupported baud rate: %s, defaulting to 9600", strerror(errno));
+		return B9600;
+	}
+
+	return baud_enum;
+}
+
+static bool configureSerialPort(SerialConnection *connection, int fd, int baud)
 {
 	struct termios tty;
 
@@ -18,8 +58,10 @@ static bool configureSerialPort(SerialConnection *connection, int fd)
 		return false;
 	}
 
-	cfsetospeed(&tty, B9600);
-	cfsetispeed(&tty, B9600);
+	int baud_enum = get_baud_rate(baud);
+
+	cfsetospeed(&tty, baud_enum);
+	cfsetispeed(&tty, baud_enum);
 
 	tty.c_cflag &= ~PARENB;
 	tty.c_cflag &= ~CSTOPB;
@@ -30,6 +72,8 @@ static bool configureSerialPort(SerialConnection *connection, int fd)
 	tty.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
 	tty.c_oflag &= ~OPOST;
 
+	// TODO: set connection fields
+
 	if (tcsetattr(fd, TCSANOW, &tty) != 0)
 	{
 		NSLog(@"Error from tcsetattr: %s", strerror(errno));
@@ -39,7 +83,7 @@ static bool configureSerialPort(SerialConnection *connection, int fd)
 	return true;
 }
 
-bool open_serial_connection(SerialDevice *device, SerialConnection **connection)
+bool open_serial_connection(SerialDevice *device, SerialConnection **connection, int baud)
 {
 	SerialConnection *conn = (SerialConnection *)malloc(sizeof(SerialConnection));
 	memset(conn, 0, sizeof(SerialConnection));
@@ -52,7 +96,7 @@ bool open_serial_connection(SerialDevice *device, SerialConnection **connection)
 		return false;
 	}
 
-	if (!configureSerialPort(conn, conn->fd))
+	if (!configureSerialPort(conn, conn->fd, baud))
 	{
 		close(conn->fd);
 		free(conn);
@@ -86,41 +130,7 @@ bool set_serial_connection_baud(SerialConnection *connection, int baud)
 		return false;
 	}
 
-	int baud_enum = B9600;
-
-	switch (baud)
-	{
-	case 1200:
-		baud_enum = B1200;
-		break;
-	case 2400:
-		baud_enum = B2400;
-		break;
-	case 4800:
-		baud_enum = B4800;
-		break;
-	case 9600:
-		baud_enum = B9600;
-		break;
-	case 19200:
-		baud_enum = B19200;
-		break;
-	case 38400:
-		baud_enum = B38400;
-		break;
-	case 57600:
-		baud_enum = B57600;
-		break;
-	case 115200:
-		baud_enum = B115200;
-		break;
-	case 230400:
-		baud_enum = B230400;
-		break;
-	default:
-		NSLog(@"Unsupported baud rate: %s", strerror(errno));
-		return false;
-	}
+	int baud_enum = get_baud_rate(baud);
 
 	cfsetospeed(&tty, baud_enum);
 	cfsetispeed(&tty, baud_enum);

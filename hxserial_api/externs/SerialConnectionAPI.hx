@@ -26,7 +26,7 @@ extern class SerialConnectionAPI
 	 * @return true if the connection was successfully opened, false otherwise.
 	 */
 	@:native('open_serial_connection')
-	static function open_serial_connection(device:cpp.RawPointer<SerialDevice>, connection:cpp.RawPointer<cpp.RawPointer<SerialConnection>>):Bool;
+	static function open_serial_connection(device:cpp.RawPointer<SerialDevice>, connection:cpp.RawPointer<cpp.RawPointer<SerialConnection>>, baud:Int):Bool;
 
 	/**
 	 * Closes the specified serial connection.
