@@ -88,7 +88,7 @@ enum abstract CharSize(Int) from Int to Int
 
 	#if windows
 	/**
-	 * 16 bits per character
+	 * 16 bits per character, only supported on windows
 	 */
 	var CHAR_SIZE_16 = 16;
 	#end
