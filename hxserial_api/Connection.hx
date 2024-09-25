@@ -193,6 +193,7 @@ enum abstract Timeout(Int) from Int to Int
  * serial communication settings such as baud rate, character size, parity, stop bits,
  * flow control, and timeouts.
  */
+@:nullSafety
 class Connection
 {
 	/**
@@ -234,6 +235,7 @@ class Connection
 	 * Internal pointer to the serial connection.
 	 */
 	@:noCompletion
+	@:nullSafety(Off)
 	private var connection:cpp.RawPointer<SerialConnection>;
 
 	/**
