@@ -377,6 +377,7 @@ class Connection
 			{
 				if (c == byte)
 					break;
+
 				buffer.addChar(c);
 			}
 		}
@@ -385,6 +386,7 @@ class Connection
 			while ((c = readByte()) != -1)
 			{
 				buffer.addChar(c);
+
 				if (c == byte)
 					break;
 			}
@@ -403,13 +405,20 @@ class Connection
 	 * @param str The string to stop reading at.
 	 * @return The read line as a string.
 	 */
-	public function readUntilString(str:String, includeLast:Bool = false):String
+	public function readUntilString(str:String, includeLast:Bool = false):Null<String>
 	{
 		if (str == null || str.length == 0)
-			return '';
+			return null;
 
 		if (str != null && str.length == 1) // use readUntilByte if possible, since it's faster
-			return readUntilByte(str.charCodeAt(0));
+		{
+			final code:Null<Int> = str.charCodeAt(0);
+
+			if (code != null)
+				return readUntilByte(code);
+			else
+				return null;
+		}
 
 		final buffer:StringBuf = new StringBuf();
 		final matchLength = str.length;
