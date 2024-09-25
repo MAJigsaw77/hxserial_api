@@ -405,14 +405,17 @@ class Connection
 	 */
 	public function readUntilString(str:String, includeLast:Bool = false):String
 	{
-		if (str.length == 1) // use readUntilByte if possible, since it's faster
+		if (str == null || str.length == 0)
+			return '';
+
+		if (str != null && str.length == 1) // use readUntilByte if possible, since it's faster
 			return readUntilByte(str.charCodeAt(0));
 
 		final buffer:StringBuf = new StringBuf();
 		final matchLength = str.length;
 
 		var c:Int = 0;
-		var matchIndex = 0;
+		var matchIndex:Int = 0;
 
 		while ((c = readByte()) != -1)
 		{
@@ -421,6 +424,7 @@ class Connection
 			if (c == str.charCodeAt(matchIndex))
 			{
 				matchIndex++;
+
 				if (matchIndex == matchLength)
 					break;
 			}
@@ -428,9 +432,11 @@ class Connection
 				matchIndex = 0;
 		}
 
-		var res = buffer.toString();
+		var res:String = buffer.toString();
+
 		if (!includeLast)
 			res = res.substr(0, res.length - matchLength);
+
 		return res;
 	}
 
