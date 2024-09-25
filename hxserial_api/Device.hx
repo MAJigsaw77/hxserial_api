@@ -8,6 +8,7 @@ import hxserial_api.externs.Types;
  * and device-specific information such as path, vendor ID (vID), and product ID (pID).
  */
 @:allow(hxserial_api.Connection)
+@:nullSafety
 class Device
 {
 	/**
