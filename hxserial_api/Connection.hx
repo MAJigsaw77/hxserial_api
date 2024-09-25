@@ -193,6 +193,7 @@ enum abstract Timeout(Int) from Int to Int
  * serial communication settings such as baud rate, character size, parity, stop bits,
  * flow control, and timeouts.
  */
+@:nullSafety
 class Connection
 {
 	/**
@@ -234,6 +235,7 @@ class Connection
 	 * Internal pointer to the serial connection.
 	 */
 	@:noCompletion
+	@:nullSafety(Off)
 	private var connection:cpp.RawPointer<SerialConnection>;
 
 	/**
@@ -375,6 +377,7 @@ class Connection
 			{
 				if (c == byte)
 					break;
+
 				buffer.addChar(c);
 			}
 		}
@@ -383,6 +386,7 @@ class Connection
 			while ((c = readByte()) != -1)
 			{
 				buffer.addChar(c);
+
 				if (c == byte)
 					break;
 			}
@@ -401,16 +405,26 @@ class Connection
 	 * @param str The string to stop reading at.
 	 * @return The read line as a string.
 	 */
-	public function readUntilString(str:String, includeLast:Bool = false):String
+	public function readUntilString(str:String, includeLast:Bool = false):Null<String>
 	{
-		if (str.length == 1) // use readUntilByte if possible, since it's faster
-			return readUntilByte(str.charCodeAt(0));
+		if (str == null || str.length == 0)
+			return null;
+
+		if (str != null && str.length == 1) // use readUntilByte if possible, since it's faster
+		{
+			final code:Null<Int> = str.charCodeAt(0);
+
+			if (code != null)
+				return readUntilByte(code);
+			else
+				return null;
+		}
 
 		final buffer:StringBuf = new StringBuf();
 		final matchLength = str.length;
 
 		var c:Int = 0;
-		var matchIndex = 0;
+		var matchIndex:Int = 0;
 
 		while ((c = readByte()) != -1)
 		{
@@ -419,6 +433,7 @@ class Connection
 			if (c == str.charCodeAt(matchIndex))
 			{
 				matchIndex++;
+
 				if (matchIndex == matchLength)
 					break;
 			}
@@ -426,9 +441,11 @@ class Connection
 				matchIndex = 0;
 		}
 
-		var res = buffer.toString();
+		var res:String = buffer.toString();
+
 		if (!includeLast)
 			res = res.substr(0, res.length - matchLength);
+
 		return res;
 	}
 
