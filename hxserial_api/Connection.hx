@@ -4,6 +4,7 @@ import haxe.io.Bytes;
 import haxe.io.BytesData;
 import hxserial_api.externs.SerialConnectionAPI;
 import hxserial_api.externs.Types;
+import sys.thread.Mutex;
 
 /**
  * Enum abstract representing different baud rates used for serial communication.
@@ -239,6 +240,12 @@ class Connection
 	private var connection:cpp.RawPointer<SerialConnection>;
 
 	/**
+	 * Mutex for synchronizing access to the serial connection.
+	 */
+	@:noCompletion
+	private final connectionMutex:Mutex = new Mutex();
+
+	/**
 	 * Constructor for creating a new `Connection` instance. Optionally opens a connection
 	 * to a specified serial `device`.
 	 *
@@ -260,12 +267,16 @@ class Connection
 		if (connection != null)
 			close();
 
+		connectionMutex.acquire();
+
 		connection = untyped __cpp__('nullptr');
 
 		final device:SerialDevice = device.device;
 
 		if (!SerialConnectionAPI.open_serial_connection(cpp.RawPointer.addressOf(device), cpp.RawPointer.addressOf(connection), baud))
 			Sys.println('Failed to open connection.');
+
+		connectionMutex.release();
 	}
 
 	/**
@@ -273,8 +284,15 @@ class Connection
 	 */
 	public function close():Void
 	{
-		SerialConnectionAPI.close_serial_connection(connection);
-		SerialConnectionAPI.free_serial_connection(connection);
+		if (connection != null)
+		{
+			connectionMutex.acquire();
+
+			SerialConnectionAPI.close_serial_connection(connection);
+			SerialConnectionAPI.free_serial_connection(connection);
+
+			connectionMutex.release();
+		}
 	}
 
 	/**
@@ -285,15 +303,18 @@ class Connection
 	 */
 	public function read(size:Int):Bytes
 	{
+		connectionMutex.acquire();
+
 		final data:cpp.RawPointer<cpp.UInt8> = untyped __cpp__('new unsigned char[{0}]', size);
 
 		if (connection != null)
 			SerialConnectionAPI.read_serial_connection(connection, data, size);
 
-		// The .copy() is done so it doesn't break delete[].
 		final readedData:BytesData = cpp.Pointer.fromRaw(data).toUnmanagedArray(size).copy();
 
 		untyped __cpp__('delete[] {0}', data);
+
+		connectionMutex.release();
 
 		return Bytes.ofData(readedData);
 	}
@@ -468,10 +489,18 @@ class Connection
 		if (data == null || data.length <= 0)
 			return -1;
 
+		connectionMutex.acquire();
+
 		final bytesData:BytesData = data.getData();
 
-		return connection != null ? SerialConnectionAPI.write_bytes_serial_connection(connection, cpp.Pointer.ofArray(bytesData).constRaw,
-			bytesData.length) : -1;
+		var response:Int = -1;
+
+		if (connection != null)
+			response = SerialConnectionAPI.write_bytes_serial_connection(connection, cpp.Pointer.ofArray(bytesData).constRaw, bytesData.length);
+
+		connectionMutex.release();
+
+		return response;
 	}
 
 	/**
