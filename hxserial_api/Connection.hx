@@ -236,8 +236,7 @@ class Connection
 	 * Internal pointer to the serial connection.
 	 */
 	@:noCompletion
-	@:nullSafety(Off)
-	private var connection:cpp.RawPointer<SerialConnection>;
+	private var connection:Null<cpp.RawPointer<SerialConnection>>;
 
 	/**
 	 * Mutex for synchronizing access to the serial connection.
