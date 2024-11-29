@@ -236,7 +236,8 @@ class Connection
 	 * Internal pointer to the serial connection.
 	 */
 	@:noCompletion
-	private var connection:Null<cpp.RawPointer<SerialConnection>>;
+	@:nullSafety(Off)
+	private var connection:cpp.RawPointer<SerialConnection>;
 
 	/**
 	 * Mutex for synchronizing access to the serial connection.
@@ -268,9 +269,9 @@ class Connection
 
 		connectionMutex.acquire();
 
-		connection = untyped __cpp__('nullptr');
-
 		final device:SerialDevice = device.device;
+
+		connection = untyped nullptr;
 
 		if (!SerialConnectionAPI.open_serial_connection(cpp.RawPointer.addressOf(device), cpp.RawPointer.addressOf(connection), baud))
 			Sys.println('Failed to open connection.');
