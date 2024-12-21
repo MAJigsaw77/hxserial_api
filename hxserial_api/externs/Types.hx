@@ -12,8 +12,7 @@ class Types {}
 @:native('SerialDevice')
 extern class SerialDevice
 {
-	@:native('SerialDevice')
-	static function create():SerialDevice;
+	function new():Void;
 
 	var path:cpp.ConstCharStar;
 	var vID:Int;
@@ -27,8 +26,7 @@ extern class SerialDevice
 @:native('SerialConnection')
 extern class SerialConnection
 {
-	@:native('SerialConnection')
-	static function create():SerialConnection;
+	function new():Void;
 
 	var path:cpp.ConstCharStar;
 	var baud:Int;
